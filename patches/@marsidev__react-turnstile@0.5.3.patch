@@ -1,0 +1,26 @@
+diff --git a/dist/index.cjs b/dist/index.cjs
+index 8e5ffe0de979f26a1e2e18e09940ddec7f63cdbc..244e011d365c53f46f36866e3e7fc6c9d440d063 100644
+--- a/dist/index.cjs
++++ b/dist/index.cjs
+@@ -11,7 +11,7 @@ const Component = ({ as: Element = "div", ...props }, ref) => {
+ };
+ const Container = react.forwardRef(Component);
+ 
+-const SCRIPT_URL = "https://challenges.cloudflare.com/turnstile/v0/api.js";
++const SCRIPT_URL = "";
+ const DEFAULT_SCRIPT_ID = "cf-turnstile-script";
+ const DEFAULT_CONTAINER_ID = "cf-turnstile";
+ const DEFAULT_ONLOAD_NAME = "onloadTurnstileCallback";
+diff --git a/dist/index.mjs b/dist/index.mjs
+index df31df1bb8301ddcc11d9172af43d3037ef957dc..cf761e650b728d31faa85ede5029340ccd51919a 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -7,7 +7,7 @@ const Component = ({ as: Element = "div", ...props }, ref) => {
+ };
+ const Container = forwardRef(Component);
+ 
+-const SCRIPT_URL = "https://challenges.cloudflare.com/turnstile/v0/api.js";
++const SCRIPT_URL = "";
+ const DEFAULT_SCRIPT_ID = "cf-turnstile-script";
+ const DEFAULT_CONTAINER_ID = "cf-turnstile";
+ const DEFAULT_ONLOAD_NAME = "onloadTurnstileCallback";

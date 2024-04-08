@@ -1,0 +1,14 @@
+{
+  "env": {
+    "DEV": "true"
+  },
+  "watch": [
+    "src",
+    "manifest.json",
+    "icon.png",
+    "build.js",
+    "tailwind.*.config.js"
+  ],
+  "ext": "tsx,css,html,ts,json,png",
+  "exec": "node build.js"
+}
