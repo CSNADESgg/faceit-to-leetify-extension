@@ -8,11 +8,7 @@ import {
 import "./window";
 import FaceitToast from "./FaceitToast";
 import clsx from "clsx";
-import {
-  FORTNIGHT_IN_MS,
-  LEETIFY_OLD_DEMO_WARNING,
-  MULTIPLE_FACEIT_DEMO_URLS,
-} from "../constants";
+import { FORTNIGHT_IN_MS, LEETIFY_OLD_DEMO_WARNING } from "../constants";
 import WarningIcon from "../components/WarningIcon";
 import { ProcessedMatch } from "../storage";
 
@@ -40,7 +36,7 @@ function getLeetifyRedirectUrl(leetifyId: string, isOldDemo?: boolean) {
 }
 
 export default function FaceitToLeetifyButton() {
-  const { component: Captcha, getToken } = useTurnstileCaptcha();
+  const { component: Captcha, getToken } = useTurnstileCaptcha("leetify");
 
   const [leetifyId, setLeetifyId] = useState<string>();
   const [loading, setLoading] = useState(!!window.__faceitToLeetifyAutomatic);

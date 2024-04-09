@@ -42,7 +42,7 @@ export function hookTurnstile() {
   script.dataset.faceitToLeetifyHooked = "true";
 }
 
-export default function useTurnstile(): TurnstileCaptcha {
+export default function useTurnstile(id: string): TurnstileCaptcha {
   const turnstileRef = useRef<TurnstileInstance>(null);
   const [turnstileSiteKey, setTurnstileSiteKey] = useState<string>();
   const turnstileSiteKeyPromiseRef = useRef(defer<void>());
@@ -52,7 +52,7 @@ export default function useTurnstile(): TurnstileCaptcha {
     await turnstileSiteKeyPromiseRef.current;
     await loadPromise;
     // Force our instance to be marked as loaded
-    window["onloadTurnstileCallback__faceit-to-leetify-turnstile"]();
+    window[`onloadTurnstileCallback__faceit-to-leetify-turnstile__${id}`]();
 
     // Execute the Turnstile challenge
     turnstileRef.current?.execute();
@@ -62,7 +62,7 @@ export default function useTurnstile(): TurnstileCaptcha {
     }
 
     return token;
-  }, []);
+  }, [id]);
 
   // Extract site key from bundle
   useEffect(() => {
@@ -103,19 +103,19 @@ export default function useTurnstile(): TurnstileCaptcha {
       turnstileSiteKey && (
         <>
           {/* Force script to be "loaded" */}
-          <script id="faceit-to-leetify__cf-turnstile-script" />
+          <script id={`faceit-to-leetify__${id}__cf-turnstile-script`} />
 
           <Turnstile
             ref={turnstileRef}
             siteKey={turnstileSiteKey}
-            id="faceit-to-leetify-turnstile"
+            id={`faceit-to-leetify-turnstile__${id}`}
             options={{
               size: "invisible",
               action: "matchroomFinished_downloadDemos",
               execution: "execute",
             }}
             scriptOptions={{
-              id: "faceit-to-leetify__cf-turnstile-script",
+              id: `faceit-to-leetify__${id}__cf-turnstile-script`,
             }}
             injectScript={false}
           />

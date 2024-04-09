@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import FaceitToLeetifyButton from "./FaceitToLeetifyButton";
+import FaceitDownloadButton from "./FaceitDownloadButton";
 import "./window";
 import { hookTurnstile } from "./useTurnstile";
 
@@ -36,11 +37,8 @@ function onDomChange() {
   if (!parent) {
     return;
   }
-  // Find "Watch demo" button. Can't read textContent as FACEIT is i18n
-  const button = parent.querySelector(
-    "div:first-child > div:first-child > button > span",
-  )?.parentElement;
-  if (!button) {
+  // Check if captcha is rendered
+  if (!parent.querySelector("#cf-turnstile")) {
     return;
   }
 
@@ -48,6 +46,22 @@ function onDomChange() {
   parent.style.marginLeft = "-8px";
   parent.style.marginRight = "-8px";
   parent.style.padding = "16px 8px";
+
+  // Find "Watch demo" button
+  let button = parent.querySelector(
+    "div:first-child > div:first-child > button > span",
+  )?.parentElement;
+  if (!button) {
+    // Add button root after "Watch match" button
+    const div = document.createElement("div");
+    div.id = "__faceit-to-leetify-download";
+    parent.querySelector("div:first-child > div:first-child > a")?.before(div);
+    button = div;
+
+    // Render button
+    const root = createRoot(div);
+    root.render(<FaceitDownloadButton />);
+  }
 
   // Add button root after "Watch match" button
   const div = document.createElement("div");
