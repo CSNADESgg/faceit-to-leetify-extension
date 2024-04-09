@@ -15,6 +15,7 @@ This browser extension adds a button on the FACEIT match page to send the demo t
 
 - Send FACEIT match demos to Leetify with a single click
 - Link to Leetify match stats from FACEIT match page
+- Re-adds "Watch demo" button of matches you didn't play in
 - Ability to wait for FACEIT demo to be ready when match is finished
 - Import FACEIT match demos directly from Leetify
 - Free and open source. No data collection
