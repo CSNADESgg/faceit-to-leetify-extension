@@ -1,6 +1,6 @@
 # FACEIT to Leetify Demo Uploader by CSNADES.gg
 
-Introducing the FACEIT to Leetify automatic demo uploader, by [CSNADES.gg](https://csnades.gg) with help from Leetify.
+Introducing the FACEIT to Leetify automatic demo uploader, by [CSNADES.gg](https://csnades.gg).
 
 👉 [**Download the extension for Chrome**](https://chromewebstore.google.com/detail/faceit-to-leetify-demo-up/jiphjfgegfhcophdoacldbcpakmoacnc).
 
