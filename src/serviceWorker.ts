@@ -54,6 +54,14 @@ chrome.runtime.onMessageExternal.addListener(
           );
           const leetifyData = (await leetifyResponse.json()) as { id: string };
 
+          if (!leetifyData.id) {
+            console.error("Leetify returned no match ID");
+            sendResponse({
+              error: FaceitErrors.LEETIFY_NO_MATCH_ID,
+            });
+            return;
+          }
+
           console.log(
             `Posted to Leetify, returned Leetify match ID: ${leetifyData.id}`,
           );

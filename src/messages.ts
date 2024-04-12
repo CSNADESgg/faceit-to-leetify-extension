@@ -22,4 +22,5 @@ export type ServiceWorkerMessage =
 
 export enum FaceitErrors {
   NOT_LOGGED_IN_TO_LEETIFY = "NOT_LOGGED_IN_TO_LEETIFY",
+  LEETIFY_NO_MATCH_ID = "LEETIFY_NO_MATCH_ID ",
 }

@@ -107,6 +107,11 @@ export default function FaceitToLeetifyButton() {
           setError("Please log in to Leetify and refresh.");
           setShowLoginButton(true);
           return;
+        } else if (response.error === FaceitErrors.LEETIFY_NO_MATCH_ID) {
+          setError(
+            "Leetify could not process this demo. This is not an issue with the extension.",
+          );
+          return;
         }
         throw new Error(response.error);
       }
