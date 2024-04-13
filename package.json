@@ -10,7 +10,7 @@
   "type": "module",
   "scripts": {
     "build": "node build.js",
-    "bundle": "zip -r dist.zip dist",
+    "bundle": "(cd dist/chrome && zip -r ../chrome.zip .) && (cd dist/firefox && zip -r ../firefox.zip .)",
     "dev": "nodemon",
     "format": "prettier -w ."
   },
@@ -19,8 +19,7 @@
     "clsx": "^2.1.0",
     "prettier-plugin-tailwindcss": "^0.5.13",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "webextension-polyfill": "^0.10.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.263",

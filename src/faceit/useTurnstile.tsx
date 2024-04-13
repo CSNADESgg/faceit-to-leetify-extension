@@ -8,6 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { flushSync } from "react-dom";
 
 interface TurnstileCaptcha {
   component: React.ComponentType;
@@ -52,7 +53,9 @@ export default function useTurnstile(id: string): TurnstileCaptcha {
     await turnstileSiteKeyPromiseRef.current;
     await loadPromise;
     // Force our instance to be marked as loaded
-    window[`onloadTurnstileCallback__faceit-to-leetify-turnstile__${id}`]();
+    flushSync(() => {
+      window[`onloadTurnstileCallback__faceit-to-leetify-turnstile__${id}`]();
+    });
 
     // Execute the Turnstile challenge
     turnstileRef.current?.execute();

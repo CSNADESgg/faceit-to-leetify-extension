@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { FORTNIGHT_IN_MS, LEETIFY_OLD_DEMO_WARNING } from "../constants";
 import WarningIcon from "../components/WarningIcon";
 import { ProcessedMatch } from "../storage";
+import { sendMessage } from "../helpers";
 
 // Get match ID from URL
 function getFaceitMatchId() {
@@ -96,14 +97,16 @@ export default function FaceitToLeetifyButton() {
       console.log(`Got signed URL: ${url}`);
 
       // Send to service worker
-      const response: { error: string } | { id: string } =
-        await chrome.runtime.sendMessage(window.__faceitToLeetifyExtId, {
-          type: ServiceWorkerMessageType.SEND_TO_LEETIFY,
-          payload: { url, faceitId: id, isOldDemo },
-        } satisfies ServiceWorkerMessage);
+      const response: { error: string } | { id: string } = await sendMessage({
+        type: ServiceWorkerMessageType.SEND_TO_LEETIFY,
+        payload: { url, faceitId: id, isOldDemo },
+      } satisfies ServiceWorkerMessage);
 
-      if ("error" in response) {
-        if (response.error === FaceitErrors.NOT_LOGGED_IN_TO_LEETIFY) {
+      if (!response || "error" in response) {
+        if (!response) {
+          setError("No response from extension");
+          return;
+        } else if (response.error === FaceitErrors.NOT_LOGGED_IN_TO_LEETIFY) {
           setError("Please log in to Leetify and refresh.");
           setShowLoginButton(true);
           return;
@@ -128,6 +131,7 @@ export default function FaceitToLeetifyButton() {
         setShowToast(true);
       }
     } catch (error) {
+      console.error(error);
       setError(error.toString());
     } finally {
       setLoading(false);
@@ -201,11 +205,11 @@ export default function FaceitToLeetifyButton() {
   // Fetch extension storage to check if match has already been uploaded
   useEffect(() => {
     (async () => {
-      const response: ProcessedMatch | undefined =
-        await chrome.runtime.sendMessage(window.__faceitToLeetifyExtId, {
-          type: ServiceWorkerMessageType.GET_PROCESSED_DEMO,
-          payload: { faceitId: getFaceitMatchId() },
-        } satisfies ServiceWorkerMessage);
+      const response: ProcessedMatch | undefined = await sendMessage({
+        type: ServiceWorkerMessageType.GET_PROCESSED_DEMO,
+        payload: { faceitId: getFaceitMatchId() },
+      } satisfies ServiceWorkerMessage);
+
       if (!response) {
         return;
       }

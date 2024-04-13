@@ -27,3 +27,21 @@ export async function getProcessedDemos() {
 
   return processedDemos ?? [];
 }
+
+// postMessage with reply
+export async function sendMessage(message: any) {
+  return new Promise<any>((resolve) => {
+    function onMessage(event: MessageEvent) {
+      if (event.data?.type === "fromExtension") {
+        window.removeEventListener("message", onMessage);
+        resolve(event.data.payload);
+      }
+    }
+
+    window.addEventListener("message", onMessage);
+    window.postMessage({
+      type: "fromPage",
+      payload: message,
+    });
+  });
+}

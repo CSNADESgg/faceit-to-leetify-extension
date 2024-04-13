@@ -4,6 +4,7 @@ import fs from "fs";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
+import buildManifest from "./manifest.js";
 
 // List of files to build/copy
 const sourceFiles = [
@@ -15,7 +16,6 @@ const sourceFiles = [
   "src/serviceWorker.ts",
 ];
 const staticFiles = {
-  "manifest.json": "manifest.json",
   "icon.png": "icon.png",
   "src/leetify/auth/iframe.html": "public/leetify-auth.html",
   "src/extension/popup.html": "public/popup.html",
@@ -24,51 +24,67 @@ const staticFiles = {
   "src/extension/intro-faceit.png": "public/intro-faceit.png",
 };
 
-const DEV = process.env.DEV === "true";
-
 // Setup build directory
 fs.rmSync("dist", { recursive: true, force: true });
 fs.mkdirSync("dist");
 fs.mkdirSync("dist/public");
 
-// Build source files
-await esbuild.build({
-  entryPoints: sourceFiles,
-  bundle: true,
-  outdir: "dist",
-  target: ["chrome85"],
-  jsx: "automatic",
-  minify: !DEV,
-  sourcemap: DEV,
-});
+await build("chrome");
+await build("firefox");
 
-// Copy static files
-Object.entries(staticFiles).forEach(([source, destination]) => {
-  fs.copyFileSync(source, `dist/${destination}`);
-});
+async function build(browser) {
+  const DEV = process.env.DEV === "true";
 
-// Build CSS and write
-async function buildCss(config, file) {
-  const postcssPlugins = [
-    tailwindcss({ config }),
-    autoprefixer,
-    !DEV && cssnano({ preset: "default" }),
-  ];
-  const postcssResult = await postcss(postcssPlugins.filter(Boolean)).process(
-    fs.readFileSync(`src/${file}`),
-    {
-      from: `src/${file}`,
-      to: `dist/${file}`,
-      map: DEV,
-    },
+  fs.mkdirSync(`dist/${browser}`);
+  fs.mkdirSync(`dist/${browser}/public`);
+
+  fs.writeFileSync(
+    `dist/${browser}/manifest.json`,
+    JSON.stringify(buildManifest(browser), null, 2),
   );
-  fs.writeFile(`dist/${file}`, postcssResult.css, () => true);
-  if (postcssResult.map && DEV) {
-    fs.writeFile(`dist/${file}.map`, postcssResult.map.toString(), () => true);
-  }
-}
 
-// Build styles for FACEIT/Leetify
-await buildCss("tailwind.inject.config.js", "styles.inject.css");
-// Build styles for popup/intro tab
-await buildCss("tailwind.extension.config.js", "styles.extension.css");
+  // Build source files
+  await esbuild.build({
+    entryPoints: sourceFiles,
+    bundle: true,
+    outdir: `dist/${browser}`,
+    target: ["chrome85"],
+    jsx: "automatic",
+    minify: !DEV,
+    sourcemap: DEV,
+  });
+
+  // Copy static files
+  Object.entries(staticFiles).forEach(([source, destination]) => {
+    fs.copyFileSync(source, `dist/${browser}/${destination}`);
+  });
+
+  // Build CSS and write
+  async function buildCss(config, file) {
+    const postcssPlugins = [
+      tailwindcss({ config }),
+      autoprefixer,
+      !DEV && cssnano({ preset: "default" }),
+    ];
+    const postcssResult = await postcss(postcssPlugins.filter(Boolean)).process(
+      fs.readFileSync(`src/${file}`),
+      {
+        from: `src/${file}`,
+        to: `dist/${browser}/${file}`,
+        map: DEV,
+      },
+    );
+    fs.writeFileSync(`dist/${browser}/${file}`, postcssResult.css);
+    if (postcssResult.map && DEV) {
+      fs.writeFileSync(
+        `dist/${browser}/${file}.map`,
+        postcssResult.map.toString(),
+      );
+    }
+  }
+
+  // Build styles for FACEIT/Leetify
+  await buildCss("tailwind.inject.config.js", "styles.inject.css");
+  // Build styles for popup/intro tab
+  await buildCss("tailwind.extension.config.js", "styles.extension.css");
+}
