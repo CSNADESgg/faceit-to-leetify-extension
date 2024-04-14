@@ -21,6 +21,7 @@ export async function getLeetifyAuthToken() {
       close = async () => {
         await chrome.offscreen.closeDocument();
       };
+      break;
     case Browser.Firefox:
       // Create authentication tab which has content script to extract token
       const tab = await chrome.tabs.create({
@@ -31,6 +32,7 @@ export async function getLeetifyAuthToken() {
       close = async () => {
         await chrome.tabs.remove(tab.id!);
       };
+      break;
   }
 
   // Error after 10s
@@ -42,11 +44,14 @@ export async function getLeetifyAuthToken() {
   }, 10_000);
 
   // Wait for token to be fetched and cleanup
-  const leetifyAccessToken = await leetifyAuthTokenPromise;
-  clearTimeout(timeout);
-  await close();
+  try {
+    const leetifyAccessToken = await leetifyAuthTokenPromise;
+    clearTimeout(timeout);
 
-  return leetifyAccessToken;
+    return leetifyAccessToken;
+  } finally {
+    await close();
+  }
 }
 
 export function setLeetifyAuthToken(authToken?: string) {
