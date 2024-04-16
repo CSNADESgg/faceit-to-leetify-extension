@@ -56,6 +56,10 @@ export default function useTurnstile(id: string): TurnstileCaptcha {
     flushSync(() => {
       window[`onloadTurnstileCallback__faceit-to-leetify-turnstile__${id}`]();
     });
+    // Wait a few ticks
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    await new Promise((resolve) => setTimeout(resolve, 1));
 
     // Execute the Turnstile challenge
     turnstileRef.current?.execute();
