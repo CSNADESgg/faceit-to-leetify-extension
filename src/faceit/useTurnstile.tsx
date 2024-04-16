@@ -81,6 +81,10 @@ export default function useTurnstile(id: string): TurnstileCaptcha {
       }
 
       const response = await fetch(faceitMainScript.src);
+      if (!response.ok) {
+        console.error("FACEIT main script response:", await response.text());
+        throw new Error("Could not read FACEIT main script");
+      }
       const text = await response.text();
 
       const siteKey = /"TURNSTILE":{"SITEKEY":"(.*?)"}/.exec(text)?.[1];

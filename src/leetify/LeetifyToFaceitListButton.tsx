@@ -13,6 +13,13 @@ export default function LeetifyToFaceitButton({ id }: { id: string }) {
     const response = await fetch(
       `https://api.leetify.com/api/games/${id}/external-match-id`,
     );
+    if (!response.ok) {
+      console.error(
+        "Leetify external match ID response:",
+        await response.text(),
+      );
+      throw new Error("Could not get FACEIT match ID from Leetify");
+    }
     const faceitId = await response.json();
 
     console.log(`Got FACEIT match ID ${faceitId}, redirecting`);

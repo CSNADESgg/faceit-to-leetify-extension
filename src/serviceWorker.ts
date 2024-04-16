@@ -50,6 +50,16 @@ async function onMessage(
             }),
           },
         );
+        if (!leetifyResponse.ok) {
+          console.error(
+            "Could not submit demo to Leetify",
+            await leetifyResponse.text(),
+          );
+          return {
+            error: FaceitErrors.LEETIFY_NO_MATCH_ID,
+          };
+        }
+
         const leetifyData = (await leetifyResponse.json()) as { id: string };
 
         if (!leetifyData.id) {

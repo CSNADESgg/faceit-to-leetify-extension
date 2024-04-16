@@ -59,6 +59,14 @@ export default function FaceitToLeetifyButton() {
       const faceitMatchDetailsResponse = await fetch(
         `https://www.faceit.com/api/match/v2/match/${id}`,
       );
+      if (!faceitMatchDetailsResponse.ok) {
+        setError("Could not get FACEIT match details. Is FACEIT down?");
+        console.error(
+          "FACEIT match details response:",
+          await faceitMatchDetailsResponse.text(),
+        );
+        return;
+      }
       const faceitMatchDetails = await faceitMatchDetailsResponse.json();
 
       // Find if match is older than 14 days
@@ -92,6 +100,15 @@ export default function FaceitToLeetifyButton() {
           }),
         },
       );
+      if (!faceitDemoResponse.ok) {
+        setError("Could not get demo URL. Is FACEIT down?");
+        console.error(
+          "FACEIT demo URL response:",
+          await faceitDemoResponse.text(),
+        );
+        return;
+      }
+
       const faceitDemoData = await faceitDemoResponse.json();
       const url = faceitDemoData.payload.download_url;
       console.log(`Got signed URL: ${url}`);

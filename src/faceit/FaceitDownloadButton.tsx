@@ -30,6 +30,14 @@ export default function FaceitDownloadButton() {
       const faceitMatchDetailsResponse = await fetch(
         `https://www.faceit.com/api/match/v2/match/${id}`,
       );
+      if (!faceitMatchDetailsResponse.ok) {
+        setError("Could not get FACEIT match details. Is FACEIT down?");
+        console.error(
+          "FACEIT match details response:",
+          await faceitMatchDetailsResponse.text(),
+        );
+        return;
+      }
       const faceitMatchDetails = await faceitMatchDetailsResponse.json();
 
       for (const demoUrl of faceitMatchDetails.payload.demoURLs) {
@@ -40,10 +48,21 @@ export default function FaceitDownloadButton() {
             method: "POST",
             body: JSON.stringify({
               resource_url: demoUrl,
-              captcha_token: await getToken(),
             }),
+            headers: {
+              "x-faceit-captcha-token": await getToken(),
+            },
           },
         );
+
+        if (!faceitDemoResponse.ok) {
+          setError("Could not get demo URL. Is FACEIT down?");
+          console.error(
+            "FACEIT demo URL response:",
+            await faceitDemoResponse.text(),
+          );
+          return;
+        }
 
         const faceitDemoData = await faceitDemoResponse.json();
         const url = faceitDemoData.payload.download_url;
