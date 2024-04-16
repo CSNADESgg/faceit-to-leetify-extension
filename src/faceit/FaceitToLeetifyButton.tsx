@@ -8,7 +8,7 @@ import {
 import "./window";
 import FaceitToast from "./FaceitToast";
 import clsx from "clsx";
-import { FORTNIGHT_IN_MS, LEETIFY_OLD_DEMO_WARNING } from "../constants";
+import { LEETIFY_PROCESS_LIMIT, LEETIFY_OLD_DEMO_WARNING } from "../constants";
 import WarningIcon from "../components/WarningIcon";
 import { ProcessedMatch } from "../storage";
 import { sendMessage } from "../helpers";
@@ -69,11 +69,11 @@ export default function FaceitToLeetifyButton() {
       }
       const faceitMatchDetails = await faceitMatchDetailsResponse.json();
 
-      // Find if match is older than 14 days
+      // Find if match is older than Leetify supports
       const matchFinishedAt = new Date(
         faceitMatchDetails.payload.finishedAt,
       ).getTime();
-      let isOldDemo = Date.now() - matchFinishedAt > FORTNIGHT_IN_MS;
+      let isOldDemo = Date.now() - matchFinishedAt > LEETIFY_PROCESS_LIMIT;
 
       if (isOldDemo) {
         setIsOldDemo(true);
