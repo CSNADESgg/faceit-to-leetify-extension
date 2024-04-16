@@ -4,6 +4,8 @@ Introducing the FACEIT to Leetify automatic demo uploader, by [CSNADES.gg](https
 
 👉 [**Download the extension for Chrome**](https://chromewebstore.google.com/detail/faceit-to-leetify-demo-up/jiphjfgegfhcophdoacldbcpakmoacnc).
 
+👉 [**Download the extension for Firefox**](https://addons.mozilla.org/en-US/firefox/addon/faceit-to-leetify/).
+
 This browser extension adds a button on the FACEIT match page to send the demo to Leetify for processing. With a single click, you can get back all your Leetify stats from FACEIT. You can also get FACEIT demos directly from the Leetify match page as well as the match list page.
 
 | ⭐ This extension is built by [CSNADES.gg](https://csnades.gg), the best website to learn Counter-Strike nade lineups. |
