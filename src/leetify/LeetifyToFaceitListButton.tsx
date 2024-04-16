@@ -17,7 +17,10 @@ export default function LeetifyToFaceitButton({ id }: { id: string }) {
 
     console.log(`Got FACEIT match ID ${faceitId}, redirecting`);
     // Same flow as clicking on the button from match page
-    location.href = `https://www.faceit.com/en/cs2/room/${faceitId}?faceit-to-leetify=auto`;
+    open(
+      `https://www.faceit.com/en/cs2/room/${faceitId}?faceit-to-leetify=auto`,
+      "_blank",
+    );
   }
 
   // Fetch to check if match already been upload
@@ -46,7 +49,7 @@ export default function LeetifyToFaceitButton({ id }: { id: string }) {
       onClick={handleClick}
       disabled={isProcessing}
     >
-      {isProcessing ? "PROCESSING ON LEETIFY" : "UPLOAD TO LEETIFY"}
+      {isProcessing ? "PROCESSING" : "UPLOAD"}
     </button>
   );
 }
