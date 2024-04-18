@@ -47,6 +47,7 @@ export default function useTurnstile(id: string): TurnstileCaptcha {
   const turnstileRef = useRef<TurnstileInstance>(null);
   const [turnstileSiteKey, setTurnstileSiteKey] = useState<string>();
   const turnstileSiteKeyPromiseRef = useRef(defer<void>());
+  const turnstileWidgetLoadPromiseRef = useRef(defer<void>());
 
   const getToken = useCallback(async () => {
     // Wait for Turnstile to load
@@ -56,16 +57,14 @@ export default function useTurnstile(id: string): TurnstileCaptcha {
     flushSync(() => {
       window[`onloadTurnstileCallback__faceit-to-leetify-turnstile__${id}`]();
     });
-    // Wait a bit
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    // Wait for widget load
+    await turnstileWidgetLoadPromiseRef.current;
 
-    // Execute the Turnstile challenge
     turnstileRef.current?.execute();
     const token = await turnstileRef.current?.getResponsePromise();
     if (!token) {
       throw new Error("Unable to complete Turnstile");
     }
-
     return token;
   }, [id]);
 
@@ -127,6 +126,7 @@ export default function useTurnstile(id: string): TurnstileCaptcha {
               id: `faceit-to-leetify__${id}__cf-turnstile-script`,
             }}
             injectScript={false}
+            onWidgetLoad={() => turnstileWidgetLoadPromiseRef.current.resolve()}
           />
         </>
       ),
