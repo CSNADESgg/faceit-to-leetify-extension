@@ -2,9 +2,9 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import FaceitToLeetifyButton from "./FaceitToLeetifyButton";
 import FaceitDownloadButton from "./FaceitDownloadButton";
-import "./window";
+import "./global";
 import { hookTurnstile } from "./useTurnstile";
-import { FaceitToLeetifyLoadEventPayload } from "./window";
+import { FaceitToLeetifyLoadEventPayload, global } from "./global";
 
 const ADD_DOWNLOAD_BUTTON = false;
 
@@ -12,11 +12,9 @@ console.log(
   "Loaded FACEIT to Leetify extension for FACEIT injection in web page context",
 );
 
-window.__faceitToLeetify = {};
-
 // Check if redirected from Leetify
 if (new URLSearchParams(location.search).get("faceit-to-leetify") === "auto") {
-  window.__faceitToLeetify.automatic = true;
+  global.automatic = true;
 }
 
 // Listen for extension load event
@@ -26,7 +24,7 @@ document.addEventListener("faceitToLeetify__load", (event) => {
   }
   const payload = event.detail as FaceitToLeetifyLoadEventPayload;
 
-  window.__faceitToLeetify.autoUpload = payload.autoUpload;
+  global.autoUpload = payload.autoUpload;
 });
 
 function onDomChange() {

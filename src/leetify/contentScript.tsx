@@ -2,6 +2,7 @@ import React from "react";
 import LeetifyToFaceitListButton from "./LeetifyToFaceitListButton";
 import { createRoot } from "react-dom/client";
 import LeetifyToFaceitSection from "./LeetifyToFaceitSection";
+import { global, isQueryParamDone, isQueryParamOld } from "./global";
 
 console.log("Loaded FACEIT to Leetify extension for Leetify");
 
@@ -18,6 +19,19 @@ export function getLeetifyId(url: string) {
 function onDomChange() {
   if (location.pathname.startsWith("/app/match-details")) {
     // Match page
+
+    // Save and clean query params
+    global.initialQueryParams = new URLSearchParams(location.search);
+    if (isQueryParamDone() || isQueryParamOld()) {
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.delete("faceit-to-leetify");
+      searchParams.delete("faceit-to-leetify-is-old");
+      history.pushState(
+        null,
+        "",
+        `${window.location.pathname}${searchParams.toString().length ? "?" + searchParams.toString() : ""}`,
+      );
+    }
 
     // Only inject button if not on page
     if (document.getElementById("__faceit-to-leetify")) {

@@ -5,7 +5,7 @@ import {
   ServiceWorkerMessage,
   ServiceWorkerMessageType,
 } from "../messages";
-import "./window";
+import { global } from "./global";
 import FaceitToast from "./FaceitToast";
 import clsx from "clsx";
 import { LEETIFY_PROCESS_LIMIT, LEETIFY_OLD_DEMO_WARNING } from "../constants";
@@ -39,7 +39,7 @@ function getLeetifyRedirectUrl(leetifyId: string, isOldDemo?: boolean) {
 export default function FaceitToLeetifyButton() {
   const { component: Captcha, getToken } = useTurnstileCaptcha("leetify");
 
-  const automaticallyUpload = !!window.__faceitToLeetify.automatic;
+  const automaticallyUpload = !!global.automatic;
   const [leetifyId, setLeetifyId] = useState<string>();
   const [loading, setLoading] = useState(automaticallyUpload);
   const [showToast, setShowToast] = useState(false);
@@ -199,7 +199,7 @@ export default function FaceitToLeetifyButton() {
   }, [hasCountdown, waitingForCountdown]);
 
   useEffect(() => {
-    if (window.__faceitToLeetify.autoUpload && hasCountdown) {
+    if (global.autoUpload && hasCountdown) {
       setIsWaitingForCountdown(true);
     }
   }, [hasCountdown]);

@@ -4,18 +4,7 @@ import LeetifyToFaceitButton from "./LeetifyToFaceitButton";
 import { getLeetifyId } from "./contentScript";
 import { getProcessedDemos } from "../helpers";
 import { LEETIFY_OLD_DEMO_WARNING } from "../constants";
-
-function isQueryParamDone() {
-  return (
-    new URLSearchParams(location.search).get("faceit-to-leetify") === "done"
-  );
-}
-function isQueryParamOld() {
-  return (
-    new URLSearchParams(location.search).get("faceit-to-leetify-is-old") ===
-    "true"
-  );
-}
+import { global, isQueryParamDone, isQueryParamOld } from "./global";
 
 export default function LeetifyToFaceitSection() {
   // If redirected back from FACEIT, match has started upload
@@ -51,18 +40,8 @@ export default function LeetifyToFaceitSection() {
     })();
   }, []);
 
-  // Remove done query param
   useEffect(() => {
-    if (isQueryParamDone() || isQueryParamOld()) {
-      const searchParams = new URLSearchParams(window.location.search);
-      searchParams.delete("faceit-to-leetify");
-      searchParams.delete("faceit-to-leetify-is-old");
-      history.pushState(
-        null,
-        "",
-        `${window.location.pathname}${searchParams.toString().length ? "?" + searchParams.toString() : ""}`,
-      );
-    }
+    global.initialQueryParams = new URLSearchParams();
   }, []);
 
   return (
