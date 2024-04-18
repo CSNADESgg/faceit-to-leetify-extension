@@ -2,13 +2,12 @@
 <html>
   <head>
     <link rel="stylesheet" href="/styles.extension.css" />
+    <script src="/extension/toggle.js" async defer type="module"></script>
   </head>
 
-  <body
-    class="min-h-[350px] min-w-[300px] bg-[#171717] p-7 text-[14px] text-white"
-  >
+  <body class="min-w-[380px] bg-[#171717] p-6 text-[14px] text-white">
     <a href="https://csnades.gg" target="_blank">
-      <img src="/public/csnades-logo.png" class="mx-auto mb-3 max-w-[150px]" />
+      <img src="/public/csnades-logo.png" class="mx-auto mb-3 max-w-[145px]" />
     </a>
 
     <h1 class="mb-5 text-center text-2xl font-bold">
@@ -42,14 +41,27 @@
       match page and click the <span class="text-leetify">pink</span>
       button to upload a match from FACEIT to Leetify.
     </p>
+
+    <label
+      class="mb-7 inline-flex w-full cursor-pointer items-center rounded-lg border border-neutral-700 p-4"
+    >
+      <input type="checkbox" class="peer sr-only" id="auto-upload" />
+      <div
+        class="peer relative h-5 w-9 rounded-full bg-neutral-700 after:absolute after:start-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#feac00] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none rtl:peer-checked:after:-translate-x-full"
+      ></div>
+      <span class="ms-3 select-none text-sm font-medium"
+        >Auto upload when demo ready</span
+      >
+    </label>
+
     <a
       href="https://csnades.gg"
       target="_blank"
-      class="mb-2 flex items-center justify-between gap-5 rounded-lg border border-[#404040] bg-[#262626] p-4 font-bold transition-colors hover:bg-[#303030]"
+      class="flex items-center justify-between gap-5 rounded-lg border border-[#404040] bg-[#262626] p-4 font-bold transition-colors hover:bg-[#303030]"
     >
       <div class="flex flex-col gap-2">
         <img src="/public/csnades-logo.png" class="mt-1 max-w-[100px]" />
-        <span>The best place to learn nade linups</span>
+        <span>The best place to learn nade lineups</span>
       </div>
       <svg
         fill="#feac00"

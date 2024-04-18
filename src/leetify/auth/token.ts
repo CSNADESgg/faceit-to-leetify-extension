@@ -11,6 +11,10 @@ export async function getLeetifyAuthToken() {
 
   switch (currentBrowser) {
     case Browser.Chrome:
+      if (await chrome.offscreen.hasDocument()) {
+        await chrome.offscreen.closeDocument();
+      }
+
       // Create authentication iframe which has content script to extract token
       await chrome.offscreen.createDocument({
         justification: "Authenticate with Leetify",

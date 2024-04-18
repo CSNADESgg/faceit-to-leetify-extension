@@ -14,9 +14,11 @@ const sourceFiles = [
   "src/leetify/auth/offscreen.ts",
   "src/leetify/contentScript.tsx",
   "src/serviceWorker.ts",
+  "src/extension/toggle.ts",
 ];
 const staticFiles = {
-  "icon.png": "icon.png",
+  "icon.48.png": "icon.48.png",
+  "icon.128.png": "icon.128.png",
   "src/leetify/auth/iframe.html": "public/leetify-auth.html",
   "src/extension/popup.html": "public/popup.html",
   "src/extension/intro.html": "public/intro.html",

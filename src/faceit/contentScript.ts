@@ -1,3 +1,6 @@
+import { AUTO_UPLOAD_STORAGE_KEY } from "../storage";
+import { FaceitToLeetifyLoadEventPayload } from "./window";
+
 console.log("Loaded FACEIT to Leetify extension for FACEIT injection");
 
 (() => {
@@ -14,13 +17,17 @@ console.log("Loaded FACEIT to Leetify extension for FACEIT injection");
   script.setAttribute("type", "text/javascript");
   script.setAttribute("src", chrome.runtime.getURL("faceit/web.js"));
 
-  script.onload = () => {
-    // Inject extension ID since we're in the web page's context
-    // and it's require for sending messages to the extension
-    const storeEvent = new CustomEvent("faceitToLeetify__extId", {
-      detail: chrome.runtime.id,
-    });
-    document.dispatchEvent(storeEvent);
+  script.onload = async () => {
+    const { [AUTO_UPLOAD_STORAGE_KEY]: autoUpload } =
+      await chrome.storage.local.get(AUTO_UPLOAD_STORAGE_KEY);
+
+    document.dispatchEvent(
+      new CustomEvent("faceitToLeetify__load", {
+        detail: {
+          autoUpload,
+        } satisfies FaceitToLeetifyLoadEventPayload,
+      }),
+    );
   };
 
   document.body.appendChild(script);

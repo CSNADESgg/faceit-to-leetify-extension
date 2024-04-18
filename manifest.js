@@ -1,6 +1,6 @@
 export default (browser) => ({
   manifest_version: 3,
-  version: "0.3.3",
+  version: "0.4.0",
   name: "FACEIT to Leetify Demo Uploader by CSNADES.gg",
   description:
     "Automatically upload FACEIT match demos to Leetify. Made by CSNADES.gg",
@@ -13,7 +13,8 @@ export default (browser) => ({
         }
       : undefined,
   icons: {
-    128: "icon.png",
+    48: "icon.48.png",
+    128: "icon.128.png",
   },
 
   content_scripts: [

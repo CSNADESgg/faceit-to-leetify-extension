@@ -39,13 +39,13 @@ function getLeetifyRedirectUrl(leetifyId: string, isOldDemo?: boolean) {
 export default function FaceitToLeetifyButton() {
   const { component: Captcha, getToken } = useTurnstileCaptcha("leetify");
 
+  const automaticallyUpload = !!window.__faceitToLeetify.automatic;
   const [leetifyId, setLeetifyId] = useState<string>();
-  const [loading, setLoading] = useState(!!window.__faceitToLeetifyAutomatic);
+  const [loading, setLoading] = useState(automaticallyUpload);
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState<string>();
   const [warning, setWarning] = useState<string>();
   const [showLoginButton, setShowLoginButton] = useState(false);
-  const automaticallyUpload = window.__faceitToLeetifyAutomatic;
   const [isOldDemo, setIsOldDemo] = useState(false);
 
   async function handleClick() {
@@ -138,7 +138,7 @@ export default function FaceitToLeetifyButton() {
 
       console.log(`Got Leetify match ID: ${response.id}`);
       // Redirect back to Leetify if was automatic
-      if (window.__faceitToLeetifyAutomatic) {
+      if (automaticallyUpload) {
         location.href = getLeetifyRedirectUrl(response.id, isOldDemo);
         return;
       }
@@ -197,6 +197,12 @@ export default function FaceitToLeetifyButton() {
       observer.disconnect();
     };
   }, [hasCountdown, waitingForCountdown]);
+
+  useEffect(() => {
+    if (window.__faceitToLeetify.autoUpload && hasCountdown) {
+      setIsWaitingForCountdown(true);
+    }
+  }, [hasCountdown]);
 
   function handleOnReadyClick() {
     setIsWaitingForCountdown(true);
@@ -271,18 +277,27 @@ export default function FaceitToLeetifyButton() {
           </svg>
         </div>
       ) : hasCountdown ? (
-        <button
-          className={clsx(
-            "bg-leetify drop-shadow-glow mb-3.5 mt-3 block h-8 w-full rounded border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100",
-            !waitingForCountdown ? "hover:brightness-125" : "cursor-wait",
+        <>
+          <button
+            className={clsx(
+              "bg-leetify drop-shadow-glow mb-3.5 mt-3 block h-8 w-full rounded border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100",
+              !waitingForCountdown
+                ? "hover:brightness-125"
+                : "!cursor-progress",
+            )}
+            onClick={!waitingForCountdown ? handleOnReadyClick : undefined}
+            disabled={waitingForCountdown}
+          >
+            {!waitingForCountdown
+              ? "UPLOAD TO LEETIFY WHEN READY"
+              : "WAITING FOR DEMO TO UPLOAD"}
+          </button>
+          {waitingForCountdown && (
+            <p className="mb-5 text-center text-[13px] text-neutral-400">
+              Stay on this page to upload when ready.
+            </p>
           )}
-          onClick={!waitingForCountdown ? handleOnReadyClick : undefined}
-          disabled={waitingForCountdown}
-        >
-          {!waitingForCountdown
-            ? "UPLOAD TO LEETIFY WHEN READY"
-            : "WAITING FOR DEMO TO UPLOAD"}
-        </button>
+        </>
       ) : !leetifyId ? (
         <button
           className="bg-leetify drop-shadow-glow mb-3.5 mt-3 block h-8 w-full rounded border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"

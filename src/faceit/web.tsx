@@ -4,22 +4,29 @@ import FaceitToLeetifyButton from "./FaceitToLeetifyButton";
 import FaceitDownloadButton from "./FaceitDownloadButton";
 import "./window";
 import { hookTurnstile } from "./useTurnstile";
+import { FaceitToLeetifyLoadEventPayload } from "./window";
+
+const ADD_DOWNLOAD_BUTTON = false;
 
 console.log(
   "Loaded FACEIT to Leetify extension for FACEIT injection in web page context",
 );
 
+window.__faceitToLeetify = {};
+
 // Check if redirected from Leetify
 if (new URLSearchParams(location.search).get("faceit-to-leetify") === "auto") {
-  window.__faceitToLeetifyAutomatic = true;
+  window.__faceitToLeetify.automatic = true;
 }
 
-// Listen for extension ID injection
-document.addEventListener("faceitToLeetify__extId", (event) => {
-  if (!("detail" in event) || window.__faceitToLeetifyExtId) {
+// Listen for extension load event
+document.addEventListener("faceitToLeetify__load", (event) => {
+  if (!("detail" in event)) {
     return;
   }
-  window.__faceitToLeetifyExtId = event.detail as string;
+  const payload = event.detail as FaceitToLeetifyLoadEventPayload;
+
+  window.__faceitToLeetify.autoUpload = payload.autoUpload;
 });
 
 function onDomChange() {
@@ -51,7 +58,7 @@ function onDomChange() {
   let button = parent.querySelector(
     "div:first-child > div:first-child > button > span",
   )?.parentElement;
-  if (!button) {
+  if (!button && ADD_DOWNLOAD_BUTTON) {
     // Add button root after "Watch match" button
     const div = document.createElement("div");
     div.id = "__faceit-to-leetify-download";
@@ -61,6 +68,8 @@ function onDomChange() {
     // Render button
     const root = createRoot(div);
     root.render(<FaceitDownloadButton />);
+  } else if (!button) {
+    return;
   }
 
   // Add button root after "Watch match" button

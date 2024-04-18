@@ -1,7 +1,9 @@
 declare global {
   interface Window {
-    __faceitToLeetifyExtId: string;
-    __faceitToLeetifyAutomatic?: boolean;
+    __faceitToLeetify: {
+      autoUpload?: boolean;
+      automatic?: boolean;
+    };
   }
 }
 

@@ -5,7 +5,7 @@
   "watch": [
     "src",
     "manifest.js",
-    "icon.png",
+    "icon.*.png",
     "build.js",
     "tailwind.*.config.js"
   ],
