@@ -3,7 +3,6 @@
 Introducing the FACEIT to Leetify automatic demo uploader, by [CSNADES.gg](https://csnades.gg).
 
 👉 [**Download the extension for Chrome**](https://chromewebstore.google.com/detail/faceit-to-leetify-demo-up/jiphjfgegfhcophdoacldbcpakmoacnc).
-👉 [**Download the extension for Firefox**](https://addons.mozilla.org/en-US/firefox/addon/faceit-to-leetify/).
 
 👉 [**Download the extension for Firefox**](https://addons.mozilla.org/en-US/firefox/addon/faceit-to-leetify/).
 
