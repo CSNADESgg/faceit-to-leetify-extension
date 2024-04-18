@@ -7,10 +7,10 @@ export default (browser) => ({
   browser_specific_settings:
     browser === "firefox"
       ? {
-        gecko: {
-          id: "faceit-to-leetify@csnades.gg",
-        },
-      }
+          gecko: {
+            id: "faceit-to-leetify@csnades.gg",
+          },
+        }
       : undefined,
   icons: {
     48: "icon.48.png",
@@ -37,12 +37,12 @@ export default (browser) => ({
   background:
     browser === "firefox"
       ? {
-        scripts: ["serviceWorker.js"],
-      }
+          scripts: ["serviceWorker.js"],
+        }
       : {
-        service_worker: "serviceWorker.js",
-        type: "module",
-      },
+          service_worker: "serviceWorker.js",
+          type: "module",
+        },
   action: {
     default_popup: "public/popup.html",
   },
@@ -56,13 +56,13 @@ export default (browser) => ({
   externally_connectable:
     browser === "chrome"
       ? {
-        ids: ["*"],
-        matches: [
-          "https://faceit.com/*",
-          "https://www.faceit.com/*",
-          "https://leetify.com/*",
-        ],
-      }
+          ids: ["*"],
+          matches: [
+            "https://faceit.com/*",
+            "https://www.faceit.com/*",
+            "https://leetify.com/*",
+          ],
+        }
       : undefined,
   permissions: browser === "chrome" ? ["offscreen", "storage"] : ["storage"],
 });

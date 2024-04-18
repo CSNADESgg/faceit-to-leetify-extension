@@ -38,5 +38,6 @@ Contributions to the extensions are welcomed! Here's how you can setup the proje
 - Install Node.js and pnpm
 - Install dependencies with `pnpm i`
 - Build the extension with `pnpm build` or run the development mode with `pnpm dev`
-- Visit `chrome://extensions` and enable developer mode, then click "Load unpacked" and point to `dist`
+- Chrome: Visit `chrome://extensions` and enable developer mode, then click 'Load unpacked' and point to `dist/chrome`
+- Firefox: Visit `about:debugging` and select 'This Firefox' in the sidebar, then click 'Load Temporary Add-on' and point to `dist/firefox/manifest.json`
 - Make sure to format your code with `pnpm format` before opening a pull request
