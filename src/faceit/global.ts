@@ -6,5 +6,3 @@ export const global = {
   autoUpload: false,
   automatic: false,
 };
-
-export {};

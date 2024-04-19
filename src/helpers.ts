@@ -45,3 +45,25 @@ export async function sendMessage(message: any) {
     });
   });
 }
+
+export async function retry<T>(
+  func: () => T,
+  retries = 5,
+  delayMs = 1000,
+): Promise<T> {
+  let result: T;
+  for (let i = 0; i < retries; i++) {
+    try {
+      result = func();
+      break;
+    } catch (error) {
+      if (i === retries - 1) {
+        throw error;
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
+    }
+  }
+
+  return result!;
+}

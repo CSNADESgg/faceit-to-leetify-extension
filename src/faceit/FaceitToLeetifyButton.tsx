@@ -220,9 +220,13 @@ export default function FaceitToLeetifyButton() {
 
   // Auto-trigger if redirect from Leetify
   useEffect(() => {
-    if (automaticallyUpload) {
-      handleClick();
-    }
+    (async () => {
+      if (automaticallyUpload) {
+        // Wait a bit for initial Turnstile to load
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        handleClick();
+      }
+    })();
   }, []);
 
   // Fetch extension storage to check if match has already been uploaded

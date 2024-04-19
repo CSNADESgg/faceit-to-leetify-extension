@@ -1,12 +1,8 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import FaceitToLeetifyButton from "./FaceitToLeetifyButton";
-import FaceitDownloadButton from "./FaceitDownloadButton";
 import "./global";
-import { hookTurnstile } from "./useTurnstile";
 import { FaceitToLeetifyLoadEventPayload, global } from "./global";
-
-const ADD_DOWNLOAD_BUTTON = false;
 
 console.log(
   "Loaded FACEIT to Leetify extension for FACEIT injection in web page context",
@@ -28,8 +24,6 @@ document.addEventListener("faceitToLeetify__load", (event) => {
 });
 
 function onDomChange() {
-  hookTurnstile();
-
   // Only inject button if not on page
   if (document.getElementById("__faceit-to-leetify")) {
     return;
@@ -56,17 +50,7 @@ function onDomChange() {
   let button = parent.querySelector(
     "div:first-child > div:first-child > button > span",
   )?.parentElement;
-  if (!button && ADD_DOWNLOAD_BUTTON) {
-    // Add button root after "Watch match" button
-    const div = document.createElement("div");
-    div.id = "__faceit-to-leetify-download";
-    parent.querySelector("div:first-child > div:first-child > a")?.before(div);
-    button = div;
-
-    // Render button
-    const root = createRoot(div);
-    root.render(<FaceitDownloadButton />);
-  } else if (!button) {
+  if (!button) {
     return;
   }
 
