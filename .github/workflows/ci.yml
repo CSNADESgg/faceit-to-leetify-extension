@@ -29,8 +29,13 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Upload artifacts
+      - name: Upload artifacts (Chrome)
+        uses: actions/upload-artifact@v4
+        with:
+          name: faceit-to-leetify-extension-chrome
+          path: dist/chrome
+      - name: Upload artifacts (Firefox)
         uses: actions/upload-artifact@v3
         with:
-          name: faceit-to-leetify-extension
-          path: dist
+          name: faceit-to-leetify-extension-firefox
+          path: dist/firefox
