@@ -31,7 +31,7 @@ function onDomChange() {
 
   // Get the info panel of match page
   const parent = document.querySelector<HTMLDivElement>(
-    "#parasite-container #MATCHROOM-OVERVIEW div[name=info]",
+    "#parasite-container [id^=MATCHROOM-OVERVIEW] div[name=info]",
   );
   if (!parent) {
     return;
