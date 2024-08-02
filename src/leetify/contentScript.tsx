@@ -46,8 +46,9 @@ function onDomChange() {
       return;
     }
 
-    const paragraph =
-      document.querySelector<HTMLParagraphElement>("header aside p");
+    const paragraph = document.querySelector<HTMLParagraphElement>(
+      "header div.banner p",
+    );
     if (!paragraph) {
       return;
     }
@@ -76,7 +77,7 @@ function onDomChange() {
 
       // Only add for unprocessed matches
       const column = row.querySelector("td");
-      if (!column || column.textContent !== "-") {
+      if (!column || column.textContent !== "Upload Demo") {
         return;
       }
 
