@@ -4,10 +4,18 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@marsidev/react-turnstile@0.5.3':
+    hash: 5fswqbjnacpfhfkdgd4kmam6im
+    path: patches/@marsidev__react-turnstile@0.5.3.patch
+
 importers:
 
   .:
     dependencies:
+      '@marsidev/react-turnstile':
+        specifier: ^0.5.3
+        version: 0.5.3(patch_hash=5fswqbjnacpfhfkdgd4kmam6im)(react-dom@18.2.0)(react@18.2.0)
       clsx:
         specifier: ^2.1.0
         version: 2.1.0
@@ -20,6 +28,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      webextension-polyfill:
+        specifier: ^0.10.0
+        version: 0.10.0
     devDependencies:
       '@types/chrome':
         specifier: ^0.0.263
@@ -226,6 +237,12 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@marsidev/react-turnstile@0.5.3':
+    resolution: {integrity: sha512-lx3p2/56esPt8Ksr37K8uhPt/K4Mg8xaIfCV8MPKmE/1X4aHesRqZok1+L1ySQwsdWoEe5+KJOhBXka8lFBwNg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1095,6 +1112,9 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  webextension-polyfill@0.10.0:
+    resolution: {integrity: sha512-c5s35LgVa5tFaHhrZDnr3FpQpjj1BB+RXhLTYUxGqBVN460HkbM8TBtEqdXWbpTKfzwCcjAZVF7zXCYSKtcp9g==}
+
   which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
@@ -1214,6 +1234,11 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  '@marsidev/react-turnstile@0.5.3(patch_hash=5fswqbjnacpfhfkdgd4kmam6im)(react-dom@18.2.0)(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -2041,6 +2066,8 @@ snapshots:
       picocolors: 1.0.0
 
   util-deprecate@1.0.2: {}
+
+  webextension-polyfill@0.10.0: {}
 
   which@2.0.2:
     dependencies:
