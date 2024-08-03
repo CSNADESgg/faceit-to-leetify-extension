@@ -46,8 +46,9 @@ function onDomChange() {
       return;
     }
 
-    const paragraph =
-      document.querySelector<HTMLParagraphElement>("header aside p");
+    const paragraph = document.querySelector<HTMLParagraphElement>(
+      "header div.banner p",
+    );
     if (!paragraph) {
       return;
     }
@@ -75,30 +76,41 @@ function onDomChange() {
       }
 
       // Only add for unprocessed matches
-      const column = row.querySelector("td");
-      if (!column || column.textContent !== "-") {
-        return;
-      }
+      // Location can be first or second column
+      const columns = [
+        row.querySelector("td"),
+        row.querySelector(":nth-child(2)"),
+      ];
 
-      // Only add for FACEIT source
-      const source = row.querySelector<HTMLImageElement>(
-        "app-data-source-icon img",
-      );
-      if (!source?.src.includes("faceit")) {
-        return;
-      }
+      columns.forEach((column) => {
+        if (!column || column.textContent !== "Upload Demo") {
+          return;
+        }
 
-      // Remove default styling
-      column.classList.remove("map");
-      column.classList.add("__faceit-to-leetify");
+        // Only add for FACEIT source
+        const source = row.querySelector<HTMLImageElement>(
+          "app-data-source-icon img",
+        );
+        if (!source?.src.includes("faceit")) {
+          return;
+        }
 
-      // Get Leetify match ID from link
-      const link = (row.parentElement as HTMLAnchorElement).href;
-      const id = getLeetifyId(link);
+        // Remove faceit-missing-demo button
+        const img = row.querySelector("img.--faceit-missing-demo");
+        img && img.remove();
 
-      // Render button
-      const root = createRoot(column);
-      root.render(<LeetifyToFaceitListButton id={id} />);
+        // Remove default styling
+        column.classList.remove("map");
+        column.classList.add("__faceit-to-leetify");
+
+        // Get Leetify match ID from link
+        const link = (row.parentElement as HTMLAnchorElement).href;
+        const id = getLeetifyId(link);
+
+        // Render button
+        const root = createRoot(column);
+        root.render(<LeetifyToFaceitListButton id={id} />);
+      });
     });
   }
 }
