@@ -87,8 +87,6 @@ function onDomChange() {
           return;
         }
 
-        console.log({ column });
-
         // Only add for FACEIT source
         const source = row.querySelector<HTMLImageElement>(
           "app-data-source-icon img",
