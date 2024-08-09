@@ -77,40 +77,33 @@ function onDomChange() {
 
       // Only add for unprocessed matches
       // Location can be first or second column
-      const columns = [
-        row.querySelector("td"),
-        row.querySelector(":nth-child(2)"),
-      ];
+      const column = row.querySelector("td.map");
 
-      columns.forEach((column) => {
-        if (!column || column.textContent !== "Upload Demo") {
-          return;
-        }
+      if (!column || column.textContent !== "Upload Demo") {
+        return;
+      }
 
-        // Only add for FACEIT source
-        const source = row.querySelector<HTMLImageElement>(
-          "app-data-source-icon img",
-        );
-        if (!source?.src.includes("faceit")) {
-          return;
-        }
+      // Only add for FACEIT source
+      const source = row.querySelector<HTMLImageElement>(
+        "app-data-source-icon img",
+      );
+      if (!source?.src.includes("faceit")) {
+        return;
+      }
 
-        // Remove faceit-missing-demo button
-        const img = row.querySelector("img.--faceit-missing-demo");
-        img && img.remove();
+      column.innerHTML = "";
 
-        // Remove default styling
-        column.classList.remove("map");
-        column.classList.add("__faceit-to-leetify");
+      // Remove default styling
+      column.classList.remove("map");
+      column.classList.add("__faceit-to-leetify");
 
-        // Get Leetify match ID from link
-        const link = (row.parentElement as HTMLAnchorElement).href;
-        const id = getLeetifyId(link);
+      // Get Leetify match ID from link
+      const link = (row.parentElement as HTMLAnchorElement).href;
+      const id = getLeetifyId(link);
 
-        // Render button
-        const root = createRoot(column);
-        root.render(<LeetifyToFaceitListButton id={id} />);
-      });
+      // Render button
+      const root = createRoot(column);
+      root.render(<LeetifyToFaceitListButton id={id} />);
     });
   }
 }
