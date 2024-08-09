@@ -46,8 +46,9 @@ function onDomChange() {
       return;
     }
 
-    const paragraph =
-      document.querySelector<HTMLParagraphElement>("header aside p");
+    const paragraph = document.querySelector<HTMLParagraphElement>(
+      "header div.banner p",
+    );
     if (!paragraph) {
       return;
     }
@@ -75,8 +76,10 @@ function onDomChange() {
       }
 
       // Only add for unprocessed matches
-      const column = row.querySelector("td");
-      if (!column || column.textContent !== "-") {
+      // Location can be first or second column
+      const column = row.querySelector("td.map");
+
+      if (!column || column.textContent !== "Upload Demo") {
         return;
       }
 
@@ -87,6 +90,8 @@ function onDomChange() {
       if (!source?.src.includes("faceit")) {
         return;
       }
+
+      column.innerHTML = "";
 
       // Remove default styling
       column.classList.remove("map");
