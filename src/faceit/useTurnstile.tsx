@@ -43,23 +43,57 @@ export default function useTurnstile(id: string): TurnstileCaptcha {
             script.src,
           ),
       );
-      if (!faceitMainScript) {
+
+      const faceitCatchaScript = [...document.querySelectorAll("script")].find(
+        (script) =>
+          /https:\/\/cdn-frontend\.faceit-cdn\.net\/web-next\/prod\/_next\/static\/chunks\/captcha-[a-z0-9]+\.min\.js/.test(
+            script.src,
+          ),
+      );
+
+      if (faceitMainScript) {
+        // we are not in beta can continue as normal
+        const response = await fetch(faceitMainScript.src);
+        if (!response.ok) {
+          console.error("FACEIT main script response:", await response.text());
+          throw new Error("Could not read FACEIT main script");
+        }
+        const text = await response.text();
+
+        const siteKey = /"TURNSTILE":{"SITEKEY":"(.*?)"}/.exec(text)?.[1];
+        if (!siteKey) {
+          throw new Error("Could not find Turnstile site key from main script");
+        }
+
+        turnstileSiteKeyPromiseRef.current.resolve(siteKey);
+      }
+
+      if (!faceitMainScript && faceitCatchaScript) {
+        // we are in beta, need to extract site key from captcha script
+        if (!faceitCatchaScript) {
+          throw new Error("Could not find FACEIT captcha");
+        }
+
+        const response = await fetch(faceitCatchaScript.src);
+        if (!response.ok) {
+          console.error("FACEIT captcha response:", await response.text());
+          throw new Error("Could not read FACEIT captcha");
+        }
+        const text = await response.text();
+
+        const siteKey = /\("(0x[a-zA-Z0-9]+)"\)/.exec(text)?.[1];
+        if (!siteKey) {
+          throw new Error(
+            "Could not find Turnstile site key from captcha script",
+          );
+        }
+
+        turnstileSiteKeyPromiseRef.current.resolve(siteKey);
+      }
+
+      if (!faceitMainScript && !faceitCatchaScript) {
         throw new Error("Could not find FACEIT main script");
       }
-
-      const response = await fetch(faceitMainScript.src);
-      if (!response.ok) {
-        console.error("FACEIT main script response:", await response.text());
-        throw new Error("Could not read FACEIT main script");
-      }
-      const text = await response.text();
-
-      const siteKey = /"TURNSTILE":{"SITEKEY":"(.*?)"}/.exec(text)?.[1];
-      if (!siteKey) {
-        throw new Error("Could not find Turnstile site key from main script");
-      }
-
-      turnstileSiteKeyPromiseRef.current.resolve(siteKey);
     })();
   });
 
