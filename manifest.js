@@ -1,6 +1,6 @@
 export default (browser) => ({
   manifest_version: 3,
-  version: "0.4.4",
+  version: "0.5.0",
   name: "FACEIT to Leetify Demo Uploader by CSNADES.gg",
   description:
     "Automatically upload FACEIT match demos to Leetify. Made by CSNADES.gg",
