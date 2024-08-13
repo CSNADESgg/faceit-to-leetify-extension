@@ -161,9 +161,7 @@ export default function FaceitToLeetifyButton() {
   useEffect(() => {
     function checkCountdown() {
       // Get the info panel of match page
-      const parent = document.querySelector<HTMLDivElement>(
-        "#parasite-container #MATCHROOM-OVERVIEW div[name=info]",
-      );
+      const parent = document.querySelector<HTMLDivElement>("div[name=info]");
       if (!parent) {
         return;
       }
@@ -304,7 +302,7 @@ export default function FaceitToLeetifyButton() {
         </>
       ) : !leetifyId ? (
         <button
-          className="bg-leetify drop-shadow-glow mb-3.5 mt-3 block h-8 w-full rounded border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
+          className="bg-leetify drop-shadow-glow mb-3.5 mt-3 block h-8 w-full cursor-pointer rounded border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
           onClick={handleClick}
         >
           UPLOAD TO LEETIFY
