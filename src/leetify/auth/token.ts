@@ -12,7 +12,14 @@ export async function getLeetifyAuthToken() {
   switch (currentBrowser) {
     case Browser.Chrome:
       if (await chrome.offscreen.hasDocument()) {
-        await chrome.offscreen.closeDocument();
+        try {
+          await chrome.offscreen.closeDocument();
+        } catch (error) {
+          console.warn(
+            "Could not close offscreen document before authenticating",
+            error,
+          );
+        }
       }
 
       // Create authentication iframe which has content script to extract token
@@ -23,7 +30,11 @@ export async function getLeetifyAuthToken() {
       });
 
       close = async () => {
-        await chrome.offscreen.closeDocument();
+        try {
+          await chrome.offscreen.closeDocument();
+        } catch (error) {
+          console.warn("Could not close offscreen document", error);
+        }
       };
       break;
     case Browser.Firefox:
@@ -34,7 +45,11 @@ export async function getLeetifyAuthToken() {
       });
 
       close = async () => {
-        await chrome.tabs.remove(tab.id!);
+        try {
+          await chrome.tabs.remove(tab.id!);
+        } catch (error) {
+          console.warn("Could not close tab", error, tab);
+        }
       };
       break;
   }
