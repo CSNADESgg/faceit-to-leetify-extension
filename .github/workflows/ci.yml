@@ -1,7 +1,8 @@
-name: Build and Zip Extension
+name: Build and ZIP Extension
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
     branches:
       - main
@@ -15,16 +16,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 20.12
+          version: 10
 
-      - name: Setup pnpm and install dependencies
-        uses: pnpm/action-setup@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          version: 8
-          run_install: true
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Build
         run: pnpm build
@@ -34,8 +38,9 @@ jobs:
         with:
           name: faceit-to-leetify-extension-chrome
           path: dist/chrome
+
       - name: Upload artifacts (Firefox)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: faceit-to-leetify-extension-firefox
           path: dist/firefox
