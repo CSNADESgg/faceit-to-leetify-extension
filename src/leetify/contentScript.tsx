@@ -69,7 +69,7 @@ function onDomChange() {
     // Match list page
 
     // Get all match rows
-    document.querySelectorAll("app-matches-list tr").forEach((row) => {
+    document.querySelectorAll("app-matches-list tr, app-matches-list-v2 tr").forEach((row) => {
       // Only inject button if not in row
       if (row.querySelector(".__faceit-to-leetify")) {
         return;
