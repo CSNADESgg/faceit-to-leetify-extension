@@ -1,7 +1,7 @@
 import * as esbuild from "esbuild";
 import postcss from "postcss";
 import fs from "fs";
-import tailwindcss from "tailwindcss";
+import tailwindcss from "@tailwindcss/postcss";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import buildManifest from "./manifest.js";
@@ -65,7 +65,6 @@ async function build(browser) {
   async function buildCss(config, file) {
     const postcssPlugins = [
       tailwindcss({ config }),
-      autoprefixer,
       !DEV && cssnano({ preset: "default" }),
     ];
     const postcssResult = await postcss(postcssPlugins.filter(Boolean)).process(

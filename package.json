@@ -16,27 +16,28 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "prettier-plugin-tailwindcss": "^0.6.6",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.269",
-    "@types/node": "^22.2.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@types/webextension-polyfill": "^0.10.7",
-    "autoprefixer": "^10.4.20",
-    "cssnano": "^7.0.5",
-    "esbuild": "^0.23.0",
-    "nodemon": "^3.1.4",
-    "postcss": "^8.4.41",
-    "prettier": "^3.3.3",
-    "tailwindcss": "^3.4.9",
-    "typescript": "^5.5.4"
+    "@tailwindcss/postcss": "^4.0.13",
+    "@types/chrome": "^0.0.309",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/webextension-polyfill": "^0.12.3",
+    "autoprefixer": "^10.4.21",
+    "cssnano": "^7.0.6",
+    "esbuild": "^0.25.1",
+    "nodemon": "^3.1.9",
+    "postcss": "^8.5.3",
+    "prettier": "^3.5.3",
+    "tailwindcss": "^4.0.13",
+    "typescript": "^5.8.2"
   },
   "volta": {
-    "node": "20.16.0"
-  },
-  "packageManager": "pnpm@9.7.0"
+    "node": "22.14.0",
+    "pnpm": "10.6.2"
+  }
 }
