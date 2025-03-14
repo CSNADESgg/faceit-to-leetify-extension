@@ -252,7 +252,7 @@ export default function FaceitToLeetifyButton() {
     <>
       {showLoginButton ? (
         <a
-          className="bg-leetify drop-shadow-glow mb-3.5 mt-3 block h-8 w-full rounded px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
+          className="bg-leetify drop-shadow-glow mt-3 mb-3.5 block h-8 w-full rounded-sm px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
           href="https://leetify.com/auth/login"
           target="_blank"
           rel="noreferrer"
@@ -260,7 +260,7 @@ export default function FaceitToLeetifyButton() {
           LOG IN TO LEETIFY
         </a>
       ) : loading ? (
-        <div className="bg-leetify drop-shadow-glow mb-3.5 mt-3 flex h-8 w-full items-center justify-center rounded">
+        <div className="bg-leetify drop-shadow-glow mt-3 mb-3.5 flex h-8 w-full items-center justify-center rounded-sm">
           <svg
             aria-hidden="true"
             className="h-5 w-5 animate-spin fill-white text-gray-300/60"
@@ -282,7 +282,7 @@ export default function FaceitToLeetifyButton() {
         <>
           <button
             className={clsx(
-              "bg-leetify drop-shadow-glow mb-3.5 mt-3 block h-8 w-full rounded border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100",
+              "bg-leetify drop-shadow-glow mt-3 mb-3.5 block h-8 w-full rounded-sm border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100",
               !waitingForCountdown
                 ? "hover:brightness-125"
                 : "!cursor-progress",
@@ -302,14 +302,14 @@ export default function FaceitToLeetifyButton() {
         </>
       ) : !leetifyId ? (
         <button
-          className="bg-leetify drop-shadow-glow mb-3.5 mt-3 block h-8 w-full cursor-pointer rounded border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
+          className="bg-leetify drop-shadow-glow mt-3 mb-3.5 block h-8 w-full cursor-pointer rounded-sm border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
           onClick={handleClick}
         >
           UPLOAD TO LEETIFY
         </button>
       ) : (
         <a
-          className="bg-leetify drop-shadow-glow mb-3.5 mt-3 flex h-8 w-full items-center justify-center gap-2 rounded px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
+          className="!bg-leetify drop-shadow-glow mt-3 mb-3.5 flex h-8 w-full items-center justify-center gap-2 rounded-sm px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
           href={getLeetifyRedirectUrl(leetifyId, isOldDemo)}
           target="_blank"
           rel="noreferrer"
@@ -332,7 +332,7 @@ export default function FaceitToLeetifyButton() {
             <p className="m-0">This usually takes 2 to 15 minutes.</p>
           </div>
           <button
-            className="w-8 rounded border-0 bg-transparent p-1 text-white/60 transition-colors hover:bg-[#484848]/80"
+            className="w-8 rounded-sm border-0 bg-transparent p-1 text-white/60 transition-colors hover:bg-[#484848]/80"
             onClick={() => setShowToast(false)}
           >
             <svg

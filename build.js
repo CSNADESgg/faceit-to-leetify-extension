@@ -50,7 +50,8 @@ async function build(browser) {
     entryPoints: sourceFiles,
     bundle: true,
     outdir: `dist/${browser}`,
-    target: ["chrome85"],
+    // Last 5 versions
+    target: ["chrome130", "firefox131"],
     jsx: "automatic",
     minify: !DEV,
     sourcemap: DEV,
@@ -62,9 +63,9 @@ async function build(browser) {
   });
 
   // Build CSS and write
-  async function buildCss(config, file) {
+  async function buildCss(file) {
     const postcssPlugins = [
-      tailwindcss({ config }),
+      tailwindcss(),
       !DEV && cssnano({ preset: "default" }),
     ];
     const postcssResult = await postcss(postcssPlugins.filter(Boolean)).process(
@@ -85,7 +86,7 @@ async function build(browser) {
   }
 
   // Build styles for FACEIT/Leetify
-  await buildCss("tailwind.inject.config.js", "styles.inject.css");
+  await buildCss("styles.inject.css");
   // Build styles for popup/intro tab
-  await buildCss("tailwind.extension.config.js", "styles.extension.css");
+  await buildCss("styles.extension.css");
 }

@@ -60,13 +60,13 @@ export default function LeetifyToFaceitSection() {
       )}
       <LeetifyToFaceitButton isDone={isProcessing} showWarning={isOldDemo} />
       {isOldDemo && (
-        <p className="mb-3 mt-2 text-center text-yellow-500">
+        <p className="mt-2 mb-3 text-center text-yellow-500">
           {LEETIFY_OLD_DEMO_WARNING}
         </p>
       )}
       {isProcessing && !isOldDemo && (
         <LeetifyToFaceitDescription>
-          <p className="mb-1">This usually takes 2 to 15 minutes.</p>
+          <p className="mt-2 mb-1">This usually takes 2 to 15 minutes.</p>
         </LeetifyToFaceitDescription>
       )}
     </div>

@@ -1,6 +1,6 @@
 {
   "name": "@csnades/faceit-to-leetify-extension",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "Automatically upload FACEIT match demos to Leetify. Made by CSNADES.gg",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.13",
+    "@tailwindcss/postcss": "^4.0.14",
     "@types/chrome": "^0.0.309",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
@@ -33,7 +33,7 @@
     "nodemon": "^3.1.9",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
-    "tailwindcss": "^4.0.13",
+    "tailwindcss": "^4.0.14",
     "typescript": "^5.8.2"
   },
   "volta": {

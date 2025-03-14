@@ -1,3 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config "../tailwind.inject.config.js";
+
+@theme {
+  --color-leetify: #f84982;
+  --drop-shadow-glow: 0 0 4px var(--color-leetify);
+}
+
+@import "tailwindcss";

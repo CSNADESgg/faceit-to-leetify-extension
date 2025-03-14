@@ -46,7 +46,8 @@ export default function useTurnstile(id: string): TurnstileCaptcha {
 
       const faceitCatchaScript = [...document.querySelectorAll("script")].find(
         (script) =>
-          /https:\/\/cdn-frontend\.faceit-cdn\.net\/web-next\/prod\/_next\/static\/chunks\/captcha-[a-z0-9]+\.min\.js/.test(
+          // https://cdn-frontend.faceit-cdn.net/web-next/_next/static/chunks/captcha-8768b3c44ab428b8.min.js
+          /https:\/\/cdn-frontend\.faceit-cdn\.net\/web-next\/(?:prod\/)?_next\/static\/chunks\/captcha-[a-z0-9]+\.min\.js/.test(
             script.src,
           ),
       );

@@ -27,7 +27,7 @@ export default function LeetifyToFaceitButton({
   return (
     <button
       className={clsx(
-        "mb-3.5 mt-3 flex h-8 w-full items-center justify-center gap-2 rounded border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100",
+        "mt-3 mb-3.5 flex h-8 w-full items-center justify-center gap-2 rounded-sm border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100",
         isDone
           ? "bg-gray-500"
           : "bg-leetify drop-shadow-glow hover:brightness-125",
