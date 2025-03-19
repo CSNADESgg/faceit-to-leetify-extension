@@ -50,7 +50,7 @@ export default function LeetifyToFaceitButton({ id }: { id: string }) {
   return (
     <button
       className={clsx(
-        "mr-2 block h-8 w-full rounded-sm border-0 px-6 py-2 text-xs font-bold text-white brightness-100 transition-all duration-100",
+        "mr-2 block h-8 w-full rounded-sm border-0 px-6 py-2 !text-xs font-bold text-white brightness-100 transition-all duration-100",
         !isProcessing ? "bg-leetify hover:brightness-125" : "bg-gray-500",
       )}
       onClick={handleClick}
