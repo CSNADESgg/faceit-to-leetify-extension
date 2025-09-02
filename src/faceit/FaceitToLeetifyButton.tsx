@@ -42,6 +42,7 @@ export default function FaceitToLeetifyButton() {
   const automaticallyUpload = !!global.automatic;
   const [leetifyId, setLeetifyId] = useState<string>();
   const [loading, setLoading] = useState(automaticallyUpload);
+  const [loadingStep, setLoadingStep] = useState<'auth' | 'demo' | 'upload'>('auth');
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState<string>();
   const [warning, setWarning] = useState<string>();
@@ -52,6 +53,7 @@ export default function FaceitToLeetifyButton() {
     const id = getFaceitMatchId();
 
     setLoading(true);
+    setLoadingStep('auth');
     setError(undefined);
 
     try {
@@ -90,6 +92,7 @@ export default function FaceitToLeetifyButton() {
       const demoUrl = faceitMatchDetails.payload.demoURLs[0];
 
       console.log(`Getting signed URL for: ${demoUrl}`);
+      setLoadingStep('demo');
       const faceitDemoResponse = await fetch(
         `https://www.faceit.com/api/download/v2/demos/download-url`,
         {
@@ -112,6 +115,7 @@ export default function FaceitToLeetifyButton() {
       const faceitDemoData = await faceitDemoResponse.json();
       const url = faceitDemoData.payload.download_url;
       console.log(`Got signed URL: ${url}`);
+      setLoadingStep('upload');
 
       // Send to service worker
       const response: { error: string } | { id: string } = await sendMessage({
@@ -260,10 +264,10 @@ export default function FaceitToLeetifyButton() {
           LOG IN TO LEETIFY
         </a>
       ) : loading ? (
-        <div className="bg-leetify drop-shadow-glow mt-3 mb-3.5 flex h-8 w-full items-center justify-center rounded-sm">
+        <div className="bg-leetify drop-shadow-glow mt-3 mb-3.5 flex h-8 w-full items-center justify-center rounded-sm gap-2">
           <svg
             aria-hidden="true"
-            className="h-5 w-5 animate-spin fill-white text-gray-300/60"
+            className="h-4 w-4 animate-spin fill-white text-gray-300/60"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -277,6 +281,11 @@ export default function FaceitToLeetifyButton() {
               fill="currentFill"
             />
           </svg>
+          <span className="font-bold text-white text-xs">
+            {loadingStep === 'auth' && 'AUTHENTICATING...'}
+            {loadingStep === 'demo' && 'GETTING DEMO...'}
+            {loadingStep === 'upload' && 'UPLOADING TO LEETIFY...'}
+          </span>
         </div>
       ) : hasCountdown ? (
         <>
