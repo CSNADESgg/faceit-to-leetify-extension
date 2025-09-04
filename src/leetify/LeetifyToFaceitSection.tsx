@@ -45,14 +45,14 @@ export default function LeetifyToFaceitSection() {
   }, []);
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="csn:flex csn:w-full csn:flex-col csn:items-center">
       {!isProcessing && (
         <LeetifyToFaceitDescription>
-          <p className="mb-2">
+          <p className="csn:mb-2">
             Click to automatically upload the FACEIT demo to Leetify.
             <br />
           </p>
-          <p className="mb-1 italic">
+          <p className="csn:mb-1 csn:italic">
             This action will automatically redirect you to the FACEIT page, then
             back to this page once the upload is started.
           </p>
@@ -60,13 +60,15 @@ export default function LeetifyToFaceitSection() {
       )}
       <LeetifyToFaceitButton isDone={isProcessing} showWarning={isOldDemo} />
       {isOldDemo && (
-        <p className="mt-2 mb-3 text-center text-yellow-500">
+        <p className="csn:mt-2 csn:mb-3 csn:text-center csn:text-yellow-500">
           {LEETIFY_OLD_DEMO_WARNING}
         </p>
       )}
       {isProcessing && !isOldDemo && (
         <LeetifyToFaceitDescription>
-          <p className="mt-2 mb-1">This usually takes 2 to 15 minutes.</p>
+          <p className="csn:mt-2 csn:mb-1">
+            This usually takes 2 to 15 minutes.
+          </p>
         </LeetifyToFaceitDescription>
       )}
     </div>

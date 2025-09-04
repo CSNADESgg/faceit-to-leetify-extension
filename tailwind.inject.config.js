@@ -5,6 +5,7 @@ export default {
     "!./src/extention/popup.html",
     "!./src/extension/intro.html",
   ],
+  prefix: "csn",
   theme: {
     extend: {
       colors: {

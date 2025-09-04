@@ -42,7 +42,9 @@ export default function FaceitToLeetifyButton() {
   const automaticallyUpload = !!global.automatic;
   const [leetifyId, setLeetifyId] = useState<string>();
   const [loading, setLoading] = useState(automaticallyUpload);
-  const [loadingStep, setLoadingStep] = useState<'auth' | 'demo' | 'upload'>('auth');
+  const [loadingStep, setLoadingStep] = useState<"auth" | "demo" | "upload">(
+    "auth",
+  );
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState<string>();
   const [warning, setWarning] = useState<string>();
@@ -53,7 +55,7 @@ export default function FaceitToLeetifyButton() {
     const id = getFaceitMatchId();
 
     setLoading(true);
-    setLoadingStep('auth');
+    setLoadingStep("auth");
     setError(undefined);
 
     try {
@@ -92,7 +94,7 @@ export default function FaceitToLeetifyButton() {
       const demoUrl = faceitMatchDetails.payload.demoURLs[0];
 
       console.log(`Getting signed URL for: ${demoUrl}`);
-      setLoadingStep('demo');
+      setLoadingStep("demo");
       const faceitDemoResponse = await fetch(
         `https://www.faceit.com/api/download/v2/demos/download-url`,
         {
@@ -115,7 +117,7 @@ export default function FaceitToLeetifyButton() {
       const faceitDemoData = await faceitDemoResponse.json();
       const url = faceitDemoData.payload.download_url;
       console.log(`Got signed URL: ${url}`);
-      setLoadingStep('upload');
+      setLoadingStep("upload");
 
       // Send to service worker
       const response: { error: string } | { id: string } = await sendMessage({
@@ -256,7 +258,7 @@ export default function FaceitToLeetifyButton() {
     <>
       {showLoginButton ? (
         <a
-          className="bg-leetify drop-shadow-glow mt-3 mb-3.5 block h-8 w-full rounded-sm px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
+          className="csn:bg-leetify csn:drop-shadow-glow csn:mt-3 csn:mb-3.5 csn:block csn:h-8 csn:w-full csn:rounded-sm csn:px-6 csn:py-2 csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100 csn:hover:brightness-125"
           href="https://leetify.com/auth/login"
           target="_blank"
           rel="noreferrer"
@@ -264,10 +266,10 @@ export default function FaceitToLeetifyButton() {
           LOG IN TO LEETIFY
         </a>
       ) : loading ? (
-        <div className="bg-leetify drop-shadow-glow mt-3 mb-3.5 flex h-8 w-full items-center justify-center rounded-sm gap-2">
+        <div className="csn:bg-leetify csn:drop-shadow-glow csn:mt-3 csn:mb-3.5 csn:flex csn:h-8 csn:w-full csn:items-center csn:justify-center csn:rounded-sm csn:gap-2">
           <svg
             aria-hidden="true"
-            className="h-4 w-4 animate-spin fill-white text-gray-300/60"
+            className="csn:h-4 csn:w-4 csn:animate-spin csn:fill-white csn:text-gray-300/60"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -281,20 +283,20 @@ export default function FaceitToLeetifyButton() {
               fill="currentFill"
             />
           </svg>
-          <span className="font-bold text-white text-xs">
-            {loadingStep === 'auth' && 'AUTHENTICATING...'}
-            {loadingStep === 'demo' && 'GETTING DEMO...'}
-            {loadingStep === 'upload' && 'UPLOADING TO LEETIFY...'}
+          <span className="csn:font-bold csn:text-white csn:text-xs">
+            {loadingStep === "auth" && "AUTHENTICATING..."}
+            {loadingStep === "demo" && "GETTING DEMO..."}
+            {loadingStep === "upload" && "UPLOADING TO LEETIFY..."}
           </span>
         </div>
       ) : hasCountdown ? (
         <>
           <button
             className={clsx(
-              "bg-leetify drop-shadow-glow mt-3 mb-3.5 block h-8 w-full rounded-sm border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100",
+              "csn:bg-leetify csn:drop-shadow-glow csn:mt-3 csn:mb-3.5 csn:block csn:h-8 csn:w-full csn:rounded-sm csn:border-0 csn:px-6 csn:py-2 csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100",
               !waitingForCountdown
-                ? "hover:brightness-125"
-                : "!cursor-progress",
+                ? "csn:hover:brightness-125"
+                : "!csn:cursor-progress",
             )}
             onClick={!waitingForCountdown ? handleOnReadyClick : undefined}
             disabled={waitingForCountdown}
@@ -304,21 +306,21 @@ export default function FaceitToLeetifyButton() {
               : "WAITING FOR DEMO TO UPLOAD"}
           </button>
           {waitingForCountdown && (
-            <p className="mb-5 text-center text-[13px] text-neutral-400">
+            <p className="csn:mb-5 csn:text-center csn:text-[13px] csn:text-neutral-400">
               Stay on this page to upload when ready.
             </p>
           )}
         </>
       ) : !leetifyId ? (
         <button
-          className="bg-leetify drop-shadow-glow mt-3 mb-3.5 block h-8 w-full cursor-pointer rounded-sm border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
+          className="csn:bg-leetify csn:drop-shadow-glow csn:mt-3 csn:mb-3.5 csn:block csn:h-8 csn:w-full csn:cursor-pointer csn:rounded-sm csn:border-0 csn:px-6 csn:py-2 csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100 csn:hover:brightness-125"
           onClick={handleClick}
         >
           UPLOAD TO LEETIFY
         </button>
       ) : (
         <a
-          className="!bg-leetify drop-shadow-glow mt-3 mb-3.5 flex h-8 w-full items-center justify-center gap-2 rounded-sm px-6 py-2 font-bold text-white brightness-100 transition-all duration-100 hover:brightness-125"
+          className="!csn:bg-leetify csn:drop-shadow-glow csn:mt-3 csn:mb-3.5 csn:flex csn:h-8 csn:w-full csn:items-center csn:justify-center csn:gap-2 csn:rounded-sm csn:px-6 csn:py-2 csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100 csn:hover:brightness-125"
           href={getLeetifyRedirectUrl(leetifyId, isOldDemo)}
           target="_blank"
           rel="noreferrer"
@@ -328,20 +330,24 @@ export default function FaceitToLeetifyButton() {
         </a>
       )}
 
-      {error && <p className="mb-5 text-center text-red-400">{error}</p>}
+      {error && (
+        <p className="csn:mb-5 csn:text-center csn:text-red-400">{error}</p>
+      )}
 
       {warning && !loading && (
-        <p className="mb-5 text-center text-yellow-500">{warning}</p>
+        <p className="csn:mb-5 csn:text-center csn:text-yellow-500">
+          {warning}
+        </p>
       )}
 
       {showToast && (
         <FaceitToast>
-          <div className="px-1.5 py-2 text-left">
-            <h2 className="m-0 pb-2">Match is processing on Leetify</h2>
-            <p className="m-0">This usually takes 2 to 15 minutes.</p>
+          <div className="csn:px-1.5 csn:py-2 csn:text-left">
+            <h2 className="csn:m-0 csn:pb-2">Match is processing on Leetify</h2>
+            <p className="csn:m-0">This usually takes 2 to 15 minutes.</p>
           </div>
           <button
-            className="w-8 rounded-sm border-0 bg-transparent p-1 text-white/60 transition-colors hover:bg-[#484848]/80"
+            className="csn:w-8 csn:rounded-sm csn:border-0 csn:bg-transparent csn:p-1 csn:text-white/60 csn:transition-colors csn:hover:bg-[#484848]/80"
             onClick={() => setShowToast(false)}
           >
             <svg
@@ -350,7 +356,6 @@ export default function FaceitToLeetifyButton() {
               xmlns="http://www.w3.org/2000/svg"
               height="24"
               width="24"
-              className="sc-klVQfs hETIkZ"
             >
               <path
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
@@ -363,11 +368,13 @@ export default function FaceitToLeetifyButton() {
 
       {automaticallyUpload && (
         <FaceitToast>
-          <div className="px-1.5 py-2 text-left">
-            <h2 className="m-0 pb-2">
+          <div className="csn:px-1.5 csn:py-2 csn:text-left">
+            <h2 className="csn:m-0 csn:pb-2">
               Match is being automatically uploaded to Leetify
             </h2>
-            <p className="m-0">Please wait until you are redirected back.</p>
+            <p className="csn:m-0">
+              Please wait until you are redirected back.
+            </p>
           </div>
         </FaceitToast>
       )}

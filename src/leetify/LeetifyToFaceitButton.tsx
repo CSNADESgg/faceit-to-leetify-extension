@@ -27,10 +27,10 @@ export default function LeetifyToFaceitButton({
   return (
     <button
       className={clsx(
-        "mt-3 mb-3.5 flex h-8 w-full items-center justify-center gap-2 rounded-sm border-0 px-6 py-2 font-bold text-white brightness-100 transition-all duration-100",
+        "csn:mt-3 csn:mb-3.5 csn:flex csn:h-8 csn:w-full csn:items-center csn:justify-center csn:gap-2 csn:rounded-sm csn:border-0 csn:px-6 csn:py-2 csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100",
         isDone
-          ? "bg-gray-500"
-          : "bg-leetify drop-shadow-glow hover:brightness-125",
+          ? "csn:bg-gray-500"
+          : "csn:bg-leetify csn:drop-shadow-glow csn:hover:brightness-125",
       )}
       onClick={handleClick}
       disabled={isDone}

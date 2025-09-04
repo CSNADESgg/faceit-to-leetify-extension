@@ -7,5 +7,5 @@ interface LeetifyToFaceitDescriptionProps {
 export default function LeetifyToFaceitDescription({
   children,
 }: LeetifyToFaceitDescriptionProps) {
-  return <div className="text-left">{children}</div>;
+  return <div className="csn:text-left">{children}</div>;
 }

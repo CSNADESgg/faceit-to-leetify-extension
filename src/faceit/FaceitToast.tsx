@@ -6,8 +6,8 @@ interface FaceitToastProps {
 
 export default function FaceitToast({ children }: FaceitToastProps) {
   return (
-    <div className="absolute inset-x-0 top-[calc(85px-64px)] flex justify-center">
-      <div className="flex items-start gap-3 rounded-sm border border-[#484848] bg-[#303030] p-4">
+    <div className="csn:absolute csn:inset-x-0 csn:top-[calc(85px-64px)] csn:flex csn:justify-center">
+      <div className="csn:flex csn:items-start csn:gap-3 csn:rounded-sm csn:border csn:border-[#484848] csn:bg-[#303030] csn:p-4">
         {children}
       </div>
     </div>

@@ -55,7 +55,8 @@ function onDomChange() {
   // Add button root after "Watch match" button
   const div = document.createElement("div");
   div.id = "__faceit-to-leetify";
-  div.className = "my-4";
+  div.style.marginTop = "16px";
+  div.style.marginBottom = "16px";
   button.after(div);
 
   // Render button
