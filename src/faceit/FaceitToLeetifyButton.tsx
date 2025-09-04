@@ -296,7 +296,7 @@ export default function FaceitToLeetifyButton() {
               "csn:bg-leetify csn:drop-shadow-glow csn:mt-3 csn:mb-3.5 csn:block csn:h-8 csn:w-full csn:rounded-sm csn:border-0 csn:px-6 csn:py-2 csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100",
               !waitingForCountdown
                 ? "csn:hover:brightness-125"
-                : "!csn:cursor-progress",
+                : "csn:!cursor-progress",
             )}
             onClick={!waitingForCountdown ? handleOnReadyClick : undefined}
             disabled={waitingForCountdown}
@@ -320,7 +320,7 @@ export default function FaceitToLeetifyButton() {
         </button>
       ) : (
         <a
-          className="!csn:bg-leetify csn:drop-shadow-glow csn:mt-3 csn:mb-3.5 csn:flex csn:h-8 csn:w-full csn:items-center csn:justify-center csn:gap-2 csn:rounded-sm csn:px-6 csn:py-2 csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100 csn:hover:brightness-125"
+          className="csn:!bg-leetify csn:drop-shadow-glow csn:mt-3 csn:mb-3.5 csn:flex csn:h-8 csn:w-full csn:items-center csn:justify-center csn:gap-2 csn:rounded-sm csn:px-6 csn:py-2 csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100 csn:hover:brightness-125"
           href={getLeetifyRedirectUrl(leetifyId, isOldDemo)}
           target="_blank"
           rel="noreferrer"
@@ -342,7 +342,7 @@ export default function FaceitToLeetifyButton() {
 
       {showToast && (
         <FaceitToast>
-          <div className="csn:px-1.5 csn:py-2 csn:text-left">
+          <div className="csn:px-1.5 csn:py-2 csn:text-left csn:font-bold">
             <h2 className="csn:m-0 csn:pb-2">Match is processing on Leetify</h2>
             <p className="csn:m-0">This usually takes 2 to 15 minutes.</p>
           </div>

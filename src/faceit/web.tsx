@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import FaceitToLeetifyButton from "./FaceitToLeetifyButton";
-import "./global";
+import { global } from "./global";
 import { FaceitToLeetifyLoadEventPayload, global } from "./global";
 
 console.log(

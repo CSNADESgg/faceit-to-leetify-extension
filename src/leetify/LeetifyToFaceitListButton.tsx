@@ -50,7 +50,7 @@ export default function LeetifyToFaceitButton({ id }: { id: string }) {
   return (
     <button
       className={clsx(
-        "csn:mr-2 csn:block csn:h-8 csn:w-full csn:rounded-sm csn:border-0 csn:px-6 csn:py-2 !csn:text-xs csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100",
+        "csn:mr-2 csn:block csn:h-8 csn:w-full csn:rounded-sm csn:border-0 csn:px-6 csn:py-2 csn:!text-xs csn:font-bold csn:text-white csn:brightness-100 csn:transition-all csn:duration-100",
         !isProcessing
           ? "csn:bg-leetify csn:hover:brightness-125"
           : "csn:bg-gray-500",
