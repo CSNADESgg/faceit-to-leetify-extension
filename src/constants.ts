@@ -1,4 +1,4 @@
-export const LEETIFY_API_URL = "https://api.leetify.com";
+export const LEETIFY_API_URL = "https://api.cs-prod.leetify.com";
 export const LEETIFY_FRONTEND_URL = "https://leetify.com";
 
 export const FACEIT_ORIGINS = ["https://faceit.com", "https://www.faceit.com"];
