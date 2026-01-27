@@ -37,7 +37,10 @@ function getLeetifyRedirectUrl(leetifyId: string, isOldDemo?: boolean) {
 }
 
 export default function FaceitToLeetifyButton() {
-  const { component: Captcha, getToken } = useTurnstileCaptcha("leetify");
+  const { component: Captcha, getToken } = useTurnstileCaptcha(
+    "leetify",
+    "matchroomFinished_downloadDemos",
+  );
 
   const automaticallyUpload = !!global.automatic;
   const [leetifyId, setLeetifyId] = useState<string>();
@@ -93,7 +96,9 @@ export default function FaceitToLeetifyButton() {
       }
       const demoUrl = faceitMatchDetails.payload.demoURLs[0];
 
-      console.log(`Getting signed URL for: ${demoUrl}`);
+      console.log(`Getting token for: ${demoUrl}`);
+      const token = await getToken();
+      console.log(`Getting signed URL for: ${demoUrl} with token ${token}`);
       setLoadingStep("demo");
       const faceitDemoResponse = await fetch(
         `https://www.faceit.com/api/download/v2/demos/download-url`,
@@ -101,7 +106,7 @@ export default function FaceitToLeetifyButton() {
           method: "POST",
           body: JSON.stringify({
             resource_url: demoUrl,
-            captcha_token: await getToken(),
+            captcha_token: token,
           }),
         },
       );

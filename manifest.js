@@ -1,6 +1,6 @@
 export default (browser) => ({
   manifest_version: 3,
-  version: "0.6.0",
+  version: "0.6.2",
   name: "FACEIT to Leetify Demo Uploader by CSNADES.gg",
   description:
     "Automatically upload FACEIT match demos to Leetify. Made by CSNADES.gg",
@@ -22,6 +22,11 @@ export default (browser) => ({
       matches: ["https://faceit.com/*", "https://www.faceit.com/*"],
       js: ["/faceit/contentScript.js"],
       css: ["styles.inject.css"],
+    },
+    {
+      matches: ["https://faceit.com/*", "https://www.faceit.com/*"],
+      js: ["/faceit/web.js"],
+      world: "MAIN",
     },
     {
       all_frames: true,

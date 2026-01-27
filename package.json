@@ -1,6 +1,6 @@
 {
   "name": "@csnades/faceit-to-leetify-extension",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Automatically upload FACEIT match demos to Leetify. Made by CSNADES.gg",
   "repository": {
     "type": "git",

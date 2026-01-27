@@ -28,124 +28,72 @@ export default function useTurnstile(id: string): TurnstileCaptcha {
     return new Promise<string>((resolve) => {
       window.turnstile!.render(`#${widgetId}`, {
         sitekey: siteKey,
+        action: "matchroomFinished_downloadDemos",
         callback: (token) => {
           resolve(token);
         },
       });
     });
-  }, [id]);
+  }, [widgetId]);
 
   // Extract site key from bundle (only once)
   useEffect(() => {
     if (siteKeySearchedRef.current) return;
     siteKeySearchedRef.current = true;
-    
+
     (async () => {
-      const faceitMainScript = [...document.querySelectorAll("script")].find(
-        (script) =>
-          /https:\/\/cdn-frontend\.faceit-cdn\.net\/web-next\/_next\/static\/chunks\/pages\/_app-[a-z0-9]+\.min\.js/.test(
-            script.src,
-          ),
-      );
-
       // FACEIT doesn't use dedicated captcha scripts anymore, search all chunk scripts
-      const faceitChunkScripts = [...document.querySelectorAll("script")].filter(
-        (script) =>
-          /https:\/\/cdn-frontend\.faceit-cdn\.net\/web-next\/.*\/chunks\/[0-9]+.*\.min\.js/.test(script.src),
+      const faceitChunkScripts = [
+        ...document.querySelectorAll("script"),
+      ].filter((script) =>
+        /https:\/\/cdn-frontend\.faceit-cdn\.net\/web-next\/.*\/chunks\/[0-9]+.*\.js/.test(
+          script.src,
+        ),
       );
-
 
       // Search all chunk scripts in parallel for performance
-      
-      const searchScript = async (chunkScript) => {
+
+      const searchScript = async (chunkScript: HTMLScriptElement) => {
         try {
           const response = await fetch(chunkScript.src);
           if (!response.ok) return null;
-          
+
           const text = await response.text();
-          
+
           // Look for Turnstile site key patterns
-          const patterns = [
-            /\("(0x[a-zA-Z0-9]+)"\)/,
-            /"(0x[a-zA-Z0-9]{16,})"/,
-            /sitekey:\s*"(0x[a-zA-Z0-9]+)"/,
-            /'(0x[a-zA-Z0-9]{16,})'/
-          ];
-          
+          const patterns = [/"(0x4AAA[a-zA-Z0-9]{18})"/];
+
           for (const pattern of patterns) {
             const match = pattern.exec(text);
             if (match) {
               const siteKey = match[1];
-              if (siteKey !== '0xffffffffffffffff' && !siteKey.match(/^0x[f]+$/)) {
-                return siteKey;
-              }
+              return siteKey;
             }
           }
           return null;
         } catch (error) {
+          console.error("Unknown error trying to search script", chunkScript);
           return null;
         }
       };
 
       // Create promises for all scripts
-      const searchPromises = faceitChunkScripts.map(script => searchScript(script));
-      
+      const searchPromises = faceitChunkScripts.map((script) =>
+        searchScript(script),
+      );
+
       // Wait for first valid result from parallel search
       const results = await Promise.allSettled(searchPromises);
       for (const result of results) {
-        if (result.status === 'fulfilled' && result.value) {
+        if (result.status === "fulfilled" && result.value) {
           turnstileSiteKeyPromiseRef.current.resolve(result.value);
           return;
         }
       }
-
-      // Fallback to main script if chunk scripts fail
-      if (faceitMainScript) {
-        const response = await fetch(faceitMainScript.src);
-        if (!response.ok) {
-          console.error("FACEIT main script response:", await response.text());
-          throw new Error("Could not read FACEIT main script");
-        }
-        const text = await response.text();
-
-        // Try multiple patterns for site key extraction
-        let siteKey = /"TURNSTILE":{"SITEKEY":"(.*?)"}/.exec(text)?.[1];
-        
-        if (!siteKey) {
-          // Try alternative patterns
-          siteKey = /sitekey:"(0x[a-zA-Z0-9]+)"/.exec(text)?.[1];
-        }
-        
-        if (!siteKey) {
-          siteKey = /"(0x[a-zA-Z0-9]+)"/.exec(text)?.[1];
-        }
-        
-        if (!siteKey) {
-          // Try to find any Turnstile key patterns (but skip dummy keys)
-          const matches = text.match(/(0x[a-zA-Z0-9]{16,})/g);
-          if (matches && matches.length > 0) {
-            // Filter out dummy keys like 0xffffffffffffffff
-            const validKeys = matches.filter(key => key !== '0xffffffffffffffff' && !key.match(/^0x[f]+$/));
-            if (validKeys.length > 0) {
-              siteKey = validKeys[0];
-            }
-          }
-        }
-        
-        if (!siteKey) {
-          console.error("No Turnstile site key found. Script preview:", text.substring(0, 2000));
-          throw new Error("Could not find Turnstile site key from main script");
-        }
-        turnstileSiteKeyPromiseRef.current.resolve(siteKey);
-      }
-
-      if (!faceitMainScript && !faceitCatchaScript) {
-        throw new Error("Could not find FACEIT main or captcha script");
-      }
     })();
   });
 
-  const component = useCallback(() => <div id={widgetId} />, []);
+  const component = useCallback(() => <div id={widgetId} />, [widgetId]);
 
   return useMemo(
     () => ({
