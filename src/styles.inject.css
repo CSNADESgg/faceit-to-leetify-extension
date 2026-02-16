@@ -5,4 +5,5 @@
   --drop-shadow-glow: 0 0 4px var(--color-leetify);
 }
 
-@import "tailwindcss";
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
