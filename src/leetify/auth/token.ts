@@ -10,7 +10,7 @@ let leetifyAuthTokenPromise: ReturnType<typeof defer<string | undefined>>;
  * Vivaldi) with a fallback to the older hasDocument() API.
  */
 async function hasOffscreenDocument(): Promise<boolean> {
-  // Prefer runtime.getContexts — it's the officially recommended approach
+  // Prefer runtime.getContexts, it's the officially recommended approach
   // and avoids the reliability issues hasDocument() has on some Chromium forks.
   if ("getContexts" in chrome.runtime) {
     try {
@@ -47,7 +47,7 @@ async function closeOffscreenDocument(): Promise<void> {
       await chrome.offscreen.closeDocument();
     }
   } catch (error) {
-    // "No current offscreen document" is fine — it was already closed.
+    // "No current offscreen document" is fine, it was already closed.
     console.warn(
       "Could not close offscreen document (may already be closed)",
       error,
@@ -80,7 +80,7 @@ async function ensureOffscreenDocument(): Promise<void> {
     await creatingOffscreen;
   } catch (error: unknown) {
     // "Only a single offscreen document may be created" means one already
-    // exists — that's fine for our purposes.
+    // exists, that's fine for our purposes.
     const msg = String(error);
     if (!msg.includes("single offscreen") && !msg.includes("already")) {
       throw error;
