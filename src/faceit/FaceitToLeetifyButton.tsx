@@ -87,74 +87,73 @@ export default function FaceitToLeetifyButton() {
         setWarning(LEETIFY_OLD_DEMO_WARNING);
       }
 
-      // Get Demo URL
-      if (faceitMatchDetails.payload.demoURLs.length !== 1) {
-        setError(
-          "More than 1 demo URL was found. This is not currently supported.",
-        );
-        return;
-      }
-      const demoUrl = faceitMatchDetails.payload.demoURLs[0];
-
-      console.log(`Getting token for: ${demoUrl}`);
+      // Get Demo URLs
+      const demoUrls = faceitMatchDetails.payload.demoURLs;
+      console.log(`Getting token for ${demoUrls.length} demo urls`);
       const token = await getToken();
-      console.log(`Getting signed URL for: ${demoUrl} with token ${token}`);
-      setLoadingStep("demo");
-      const faceitDemoResponse = await fetch(
-        `https://www.faceit.com/api/download/v2/demos/download-url`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            resource_url: demoUrl,
-            captcha_token: token,
-          }),
-        },
-      );
-      if (!faceitDemoResponse.ok) {
-        setError("Could not get demo URL. Is FACEIT down?");
-        console.error(
-          "FACEIT demo URL response:",
-          await faceitDemoResponse.text(),
-        );
-        return;
-      }
 
-      const faceitDemoData = await faceitDemoResponse.json();
-      const url = faceitDemoData.payload.download_url;
-      console.log(`Got signed URL: ${url}`);
-      setLoadingStep("upload");
-
-      // Send to service worker
-      const response: { error: string } | { id: string } = await sendMessage({
-        type: ServiceWorkerMessageType.SEND_TO_LEETIFY,
-        payload: { url, faceitId: id, isOldDemo },
-      } satisfies ServiceWorkerMessage);
-
-      if (!response || "error" in response) {
-        if (!response) {
-          setError("No response from extension");
-          return;
-        } else if (response.error === FaceitErrors.NOT_LOGGED_IN_TO_LEETIFY) {
-          setError("Please log in to Leetify and refresh.");
-          setShowLoginButton(true);
-          return;
-        } else if (response.error === FaceitErrors.LEETIFY_NO_MATCH_ID) {
-          setError(
-            "Leetify could not process this demo. This is not an issue with the extension.",
+      const leetifyGameIds = [];
+      for (const demoUrl of demoUrls) {
+          console.log(`Getting signed URL for: ${demoUrl} with token ${token}`);
+          setLoadingStep("demo");
+          const faceitDemoResponse = await fetch(
+            `https://www.faceit.com/api/download/v2/demos/download-url`,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                resource_url: demoUrl,
+                captcha_token: token,
+              }),
+            },
           );
-          return;
-        }
-        throw new Error(response.error);
+          if (!faceitDemoResponse.ok) {
+            setError("Could not get demo URL. Is FACEIT down?");
+            console.error(
+              "FACEIT demo URL response:",
+              await faceitDemoResponse.text(),
+            );
+            return;
+          }
+
+          const faceitDemoData = await faceitDemoResponse.json();
+          const url = faceitDemoData.payload.download_url;
+          console.log(`Got signed URL: ${url}`);
+          setLoadingStep("upload");
+
+          // Send to service worker
+          const response: { error: string } | { id: string } = await sendMessage({
+            type: ServiceWorkerMessageType.SEND_TO_LEETIFY,
+            payload: { url, faceitId: id, isOldDemo },
+          } satisfies ServiceWorkerMessage);
+
+          if (!response || "error" in response) {
+            if (!response) {
+              setError("No response from extension");
+              return;
+            } else if (response.error === FaceitErrors.NOT_LOGGED_IN_TO_LEETIFY) {
+              setError("Please log in to Leetify and refresh.");
+              setShowLoginButton(true);
+              return;
+            } else if (response.error === FaceitErrors.LEETIFY_NO_MATCH_ID) {
+              setError(
+                "Leetify could not process this demo. This is not an issue with the extension.",
+              );
+              return;
+            }
+            throw new Error(response.error);
+          }
+
+          console.log(`Got Leetify match ID: ${response.id}`);
+          leetifyGameIds.push(response.id);
       }
 
-      console.log(`Got Leetify match ID: ${response.id}`);
-      // Redirect back to Leetify if was automatic
-      if (automaticallyUpload) {
-        location.href = getLeetifyRedirectUrl(response.id, isOldDemo);
+      // Redirect back to Leetify if was automatic and single match round
+      if (automaticallyUpload && leetifyGameIds.length === 1) {
+        location.href = getLeetifyRedirectUrl(leetifyGameIds[0], isOldDemo);
         return;
       }
 
-      setLeetifyId(response.id);
+      setLeetifyId(leetifyGameIds[0]);
       if (!isOldDemo) {
         setShowToast(true);
       }
